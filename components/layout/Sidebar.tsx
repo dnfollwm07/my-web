@@ -6,7 +6,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useSidebar } from './SidebarProvider';
 import type { SidebarItem } from '@/config/sidebar';
 import { sidebarItems } from '@/config/sidebar';
-
+import { theme } from '@/styles/theme';
 interface SidebarItemProps {
   item: SidebarItem;
 }
@@ -97,7 +97,8 @@ const styles = {
   },
   toggleContainer: {
     padding: '1rem',
-    borderBottom: '1px solid var(--border)'
+    borderBottom: '1px solid var(--border)',
+    backgroundColor: theme.colors.background.fourth
   },
   toggleButton: {
     display: 'flex',
@@ -117,7 +118,8 @@ const styles = {
   nav: {
     flex: 1,
     overflowY: 'auto',
-    padding: '1rem'
+    padding: '1rem',
+    backgroundColor: theme.colors.background.fifth
   },
   itemContainer: {
     marginBottom: '0.5rem'

@@ -70,9 +70,12 @@ export const colorSchemes = {
   green: {
     // 背景色
     background: {
-      primary: '#408C61', // 主背景
+      primary: '#5C9979', // 主背景
       secondary: '#78A691', // 次要背景
       third: '#94B3A9', // 第三層背景
+      fourth: '#ABC3BB', // 第四層背景
+      fifth: '#C2D3CD', // 第五層背景
+      lightest: '#F8FAF9', // 淺色背景
     },
     
     // 文字色

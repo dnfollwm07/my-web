@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import { Header } from '@/components/layout/Header';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { SidebarProvider } from '@/components/layout/SidebarProvider';
+import { theme } from '@/styles/theme';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -53,7 +54,8 @@ const styles = {
     marginTop: '4rem',
     display: 'flex',
     flex: 1,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    backgroundColor: theme.colors.background.lightest
   },
   content: {
     flex: 1,
