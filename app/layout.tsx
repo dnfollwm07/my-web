@@ -1,12 +1,15 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import '../styles/globals.css';
+import '@/styles/globals.css';
+import { Header } from '@/components/layout/Header';
+import { Sidebar } from '@/components/layout/Sidebar';
+import { SidebarProvider } from '@/components/layout/SidebarProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: '我的筆記',
-  description: '個人網站，展示個人介紹、項目經驗和技術筆記',
+  title: 'My Notes',
+  description: 'A personal note-taking application',
 };
 
 export default function RootLayout({
@@ -15,8 +18,46 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="zh">
-      <body className={inter.className}>{children}</body>
+    <html lang="en">
+      <body style={styles.body}>
+        <SidebarProvider>
+          <div style={styles.container}>
+            <Header />
+            <div style={styles.mainContent}>
+              <Sidebar />
+              <div style={styles.content}>
+                {children}
+              </div>
+            </div>
+          </div>
+        </SidebarProvider>
+      </body>
     </html>
   );
-} 
+}
+
+const styles = {
+  body: {
+    fontFamily: inter.style.fontFamily,
+    margin: 0,
+    padding: 0,
+    backgroundColor: 'var(--background)',
+    color: 'var(--foreground)'
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh'
+  },
+  mainContent: {
+    marginTop: '4rem',
+    display: 'flex',
+    flex: 1,
+    overflow: 'hidden'
+  },
+  content: {
+    flex: 1,
+    overflow: 'auto',
+    padding: '1rem'
+  }
+} as const; 

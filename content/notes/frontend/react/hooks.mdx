@@ -1,0 +1,169 @@
+# React Hooks 入門指南
+
+React Hooks 是 React 16.8 中引入的新特性，它讓我們可以在函數組件中使用狀態和其他 React 特性。這篇文章將介紹最常用的幾個 Hooks。
+
+## 目錄
+- [useState](#usestate)
+- [useEffect](#useeffect)
+- [useContext](#usecontext)
+- [useRef](#useref)
+- [useMemo](#usememo)
+- [useCallback](#usecallback)
+
+## useState
+
+`useState` 是最基本的 Hook，用於在函數組件中添加狀態。
+
+```jsx
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>當前計數: {count}</p>
+      <button onClick={() => setCount(count + 1)}>增加</button>
+      <button onClick={() => setCount(count - 1)}>減少</button>
+    </div>
+  );
+}
+```
+
+## useEffect
+
+`useEffect` 用於處理副作用，比如數據獲取、訂閱或手動修改 DOM。
+
+```jsx
+import { useState, useEffect } from 'react';
+
+function DataFetcher() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://api.example.com/data');
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []); // 空依賴數組表示只在組件掛載時執行
+
+  if (loading) return <div>加載中...</div>;
+  if (!data) return <div>沒有數據</div>;
+
+  return <div>{JSON.stringify(data)}</div>;
+}
+```
+
+## useContext
+
+`useContext` 用於在組件樹中共享數據，避免 props 層層傳遞。
+
+```jsx
+import { createContext, useContext } from 'react';
+
+const ThemeContext = createContext('light');
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Toolbar />
+    </ThemeContext.Provider>
+  );
+}
+
+function Toolbar() {
+  const theme = useContext(ThemeContext);
+  return <div>當前主題: {theme}</div>;
+}
+```
+
+## useRef
+
+`useRef` 用於保存可變值，並且在組件重新渲染時保持不變。
+
+```jsx
+import { useRef, useEffect } from 'react';
+
+function TextInputWithFocus() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  return <input ref={inputRef} type="text" />;
+}
+```
+
+## useMemo
+
+`useMemo` 用於緩存計算結果，避免不必要的重新計算。
+
+```jsx
+import { useMemo } from 'react';
+
+function ExpensiveComponent({ a, b }) {
+  const result = useMemo(() => {
+    // 複雜的計算
+    return a * b;
+  }, [a, b]); // 只有當 a 或 b 改變時才重新計算
+
+  return <div>結果: {result}</div>;
+}
+```
+
+## useCallback
+
+`useCallback` 用於緩存函數，避免不必要的重新創建。
+
+```jsx
+import { useCallback, useState } from 'react';
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    setCount(count + 1);
+  }, [count]); // 只有當 count 改變時才重新創建函數
+
+  return <ChildComponent onClick={handleClick} />;
+}
+```
+
+## 最佳實踐
+
+1. **只在頂層調用 Hooks**
+   - 不要在循環、條件或嵌套函數中調用 Hooks
+   - 確保 Hooks 的調用順序一致
+
+2. **使用 ESLint 插件**
+   - 安裝 `eslint-plugin-react-hooks`
+   - 幫助你遵循 Hooks 的規則
+
+3. **優化性能**
+   - 使用 `useMemo` 和 `useCallback` 避免不必要的重新渲染
+   - 合理設置 `useEffect` 的依賴數組
+
+4. **自定義 Hooks**
+   - 將可復用的邏輯抽取到自定義 Hooks 中
+   - 自定義 Hooks 名稱應該以 "use" 開頭
+
+## 總結
+
+React Hooks 提供了一種更簡單、更直觀的方式來使用 React 的特性。通過合理使用這些 Hooks，我們可以寫出更簡潔、更易維護的代碼。
+
+## 參考資源
+
+- [React 官方文檔 - Hooks](https://reactjs.org/docs/hooks-intro.html)
+- [React Hooks 常見問題](https://reactjs.org/docs/hooks-faq.html)
+- [useHooks](https://usehooks.com/) - 實用的自定義 Hooks 集合 

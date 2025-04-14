@@ -2,110 +2,148 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
 import { ChevronDown, ChevronRight } from 'lucide-react';
+import { useSidebar } from './SidebarProvider';
+import type { SidebarItem } from '@/config/sidebar';
+import { sidebarItems } from '@/config/sidebar';
 
-interface SidebarItem {
-  title: string;
-  href: string;
-  children?: SidebarItem[];
+interface SidebarItemProps {
+  item: SidebarItem;
 }
 
-const sidebarItems: SidebarItem[] = [
-  {
-    title: '我的介紹',
-    href: '/',
-    children: [
-      { title: '個人簡介', href: '/' },
-      { title: '技能專長', href: '/skills' },
-      { title: '工作經歷', href: '/experience' },
-    ],
-  },
-  {
-    title: '我的筆記',
-    href: '/notes',
-    children: [
-      { title: '前端開發', href: '/notes/frontend' },
-      { title: '後端開發', href: '/notes/backend' },
-      { title: '系統設計', href: '/notes/system-design' },
-    ],
-  },
-  {
-    title: '我的項目',
-    href: '/projects',
-    children: [
-      { title: '個人網站', href: '/projects/portfolio' },
-      { title: '電商平台', href: '/projects/ecommerce' },
-      { title: '社交媒體', href: '/projects/social-media' },
-    ],
-  },
-];
+const SidebarItem: React.FC<SidebarItemProps> = ({ item }) => {
+  const { isCollapsed, expandedItems, toggleItem } = useSidebar();
+  const hasChildren = item.children && item.children.length > 0;
+  const isExpanded = expandedItems.includes(item.title);
 
-interface SidebarProps {
-  isCollapsed: boolean;
-  onToggle: () => void;
-}
+  return (
+    <div style={styles.itemContainer}>
+      <div style={styles.itemContent}>
+        {hasChildren && (
+          <button
+            onClick={() => toggleItem(item.title)}
+            style={styles.toggleButton}
+          >
+            {isExpanded ? (
+              <ChevronDown style={styles.icon} />
+            ) : (
+              <ChevronRight style={styles.icon} />
+            )}
+          </button>
+        )}
+        <Link
+          href={item.href}
+          style={{
+            ...styles.itemLink,
+            paddingLeft: hasChildren ? '0' : '2rem',
+          }}
+        >
+          {!isCollapsed && item.title}
+        </Link>
+      </div>
 
-export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
-  const [expandedItems, setExpandedItems] = React.useState<string[]>([]);
+      {!isCollapsed && hasChildren && isExpanded && (
+        <div style={{ ...styles.childrenContainer, marginLeft: '1.5rem' }}>
+          {item.children?.map((child) => (
+            <SidebarItem key={child.href} item={child} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
-  const toggleItem = (title: string) => {
-    setExpandedItems((prev) =>
-      prev.includes(title)
-        ? prev.filter((item) => item !== title)
-        : [...prev, title]
-    );
-  };
+export function Sidebar() {
+  const { isCollapsed, toggleSidebar } = useSidebar();
 
   return (
     <div
-      className={cn(
-        'h-full bg-background border-r transition-all duration-300',
-        isCollapsed ? 'w-16' : 'w-64'
-      )}
+      style={{
+        ...styles.sidebar,
+        width: isCollapsed ? '4rem' : '16rem'
+      }}
     >
-      <div className="flex flex-col h-full">
-        <div className="p-4 border-b">
+      <div style={styles.sidebarContainer}>
+        <div style={styles.toggleContainer}>
           <button
-            onClick={onToggle}
-            className="flex items-center justify-center w-8 h-8 rounded-md hover:bg-accent"
+            onClick={toggleSidebar}
+            style={styles.toggleButton}
           >
             {isCollapsed ? '→' : '←'}
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto p-4">
+        <nav style={styles.nav}>
           {sidebarItems.map((item) => (
-            <div key={item.title} className="mb-4">
-              <button
-                onClick={() => toggleItem(item.title)}
-                className="flex items-center w-full p-2 rounded-md hover:bg-accent"
-              >
-                {expandedItems.includes(item.title) ? (
-                  <ChevronDown className="w-4 h-4 mr-2" />
-                ) : (
-                  <ChevronRight className="w-4 h-4 mr-2" />
-                )}
-                {!isCollapsed && <span>{item.title}</span>}
-              </button>
-
-              {!isCollapsed && expandedItems.includes(item.title) && (
-                <div className="ml-6 mt-2 space-y-2">
-                  {item.children?.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      className="block p-2 text-sm rounded-md hover:bg-accent"
-                    >
-                      {child.title}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+            <SidebarItem key={item.href} item={item} />
           ))}
         </nav>
       </div>
     </div>
   );
-} 
+}
+
+const styles = {
+  sidebar: {
+    height: '100%',
+    backgroundColor: 'var(--background)',
+    borderRight: '1px solid var(--border)',
+    transition: 'all 0.3s ease'
+  },
+  sidebarContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  },
+  toggleContainer: {
+    padding: '1rem',
+    borderBottom: '1px solid var(--border)'
+  },
+  toggleButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '2rem',
+    height: '2rem',
+    borderRadius: '0.375rem',
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+    border: 'none',
+    outline: 'none',
+    ':hover': {
+      backgroundColor: 'var(--accent)'
+    }
+  },
+  nav: {
+    flex: 1,
+    overflowY: 'auto',
+    padding: '1rem'
+  },
+  itemContainer: {
+    marginBottom: '0.5rem'
+  },
+  itemContent: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  itemLink: {
+    display: 'block',
+    padding: '0.5rem',
+    fontSize: '0.875rem',
+    borderRadius: '0.375rem',
+    textDecoration: 'none',
+    color: 'inherit',
+    flex: 1,
+    ':hover': {
+      backgroundColor: 'var(--accent)'
+    }
+  },
+  childrenContainer: {
+    marginTop: '0.5rem'
+  },
+  icon: {
+    width: '1rem',
+    height: '1rem',
+    marginRight: '0.5rem'
+  }
+} as const; 
