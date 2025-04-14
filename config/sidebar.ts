@@ -19,7 +19,7 @@ export const sidebarItems: SidebarItem[] = [
     href: '/notes',
     children: [
       { 
-        title: '計算機網絡 (Network)', 
+        title: '計算機網絡', 
         href: '/notes/network/network',
         children: [
           { 
