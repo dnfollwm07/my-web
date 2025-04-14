@@ -183,4 +183,81 @@ export const mdxComponents = {
       {...props}
     />
   ),
+  // 强调样式
+  em: (props: any) => (
+    <em
+      style={{
+        fontStyle: 'italic',
+        color: 'var(--text-primary)',
+      }}
+      {...props}
+    />
+  ),
+  // 加粗样式
+  strong: (props: any) => (
+    <strong
+      style={{
+        fontWeight: 'bold',
+        color: 'var(--text-primary)',
+      }}
+      {...props}
+    />
+  ),
+  // 删除线样式
+  del: (props: any) => (
+    <del
+      style={{
+        textDecoration: 'line-through',
+        color: 'var(--text-secondary)',
+      }}
+      {...props}
+    />
+  ),
+  // 高亮样式
+  mark: (props: any) => (
+    <mark
+      style={{
+        backgroundColor: 'var(--accent)',
+        color: 'var(--text-primary)',
+        padding: '0.1em 0.3em',
+        borderRadius: '0.2em',
+      }}
+      {...props}
+    />
+  ),
+  // 行内代码样式
+  inlineCode: (props: any) => (
+    <code
+      style={{
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
+        padding: '0.2em 0.4em',
+        borderRadius: '0.25rem',
+        fontSize: '0.9em',
+        fontFamily: 'monospace',
+      }}
+      {...props}
+    />
+  ),
+  // 链接样式
+  a: (props: any) => (
+    <a
+      style={{
+        color: 'var(--accent)',
+        textDecoration: 'underline',
+        cursor: 'pointer',
+      }}
+      {...props}
+    />
+  ),
+  // 水平分割线样式
+  hr: (props: any) => (
+    <hr
+      style={{
+        border: 'none',
+        borderTop: '1px solid var(--border)',
+        margin: '2rem 0',
+      }}
+      {...props}
+    />
+  ),
 }; 

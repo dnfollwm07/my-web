@@ -55,4 +55,8 @@ export const sidebarItems: SidebarItem[] = [
       { title: '社交媒體', href: '/projects/social-media' },
     ],
   },
+  {
+    title: '預覽編輯器',
+    href: '/editor'
+  },
 ]; 
