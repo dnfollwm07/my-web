@@ -26,7 +26,13 @@ interface ComponentProps {
   [key: string]: any;
 }
 
+const processHighlight = (text: string) => {
+  return text.replace(/==([^=]+)==/g, '<span class="highlight">$1</span>');
+};
+
 export default function MDXRenderer({ source }: MDXRendererProps) {
+  const processedSource = processHighlight(source);
+
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto' }}>
       <ReactMarkdown
@@ -45,6 +51,7 @@ export default function MDXRenderer({ source }: MDXRendererProps) {
                   padding: '1rem',
                   borderRadius: '0.5rem',
                   fontSize: '0.9rem',
+                  backgroundColor: 'var(--background-secondary)',
                 }}
                 {...props}
               >
@@ -57,6 +64,7 @@ export default function MDXRenderer({ source }: MDXRendererProps) {
                   padding: '0.2em 0.4em',
                   borderRadius: '0.25rem',
                   fontSize: '0.9em',
+                  fontFamily: 'monospace',
                 }}
                 {...props}
               >
@@ -103,7 +111,7 @@ export default function MDXRenderer({ source }: MDXRendererProps) {
                 margin: '1.25rem 0 1rem',
                 fontWeight: 'bold',
                 color: 'var(--text-primary)',
-              }}
+              }}  
               {...props}
             />
           ),
@@ -242,18 +250,6 @@ export default function MDXRenderer({ source }: MDXRendererProps) {
               {...props}
             />
           ),
-          inlineCode: (props: ComponentProps) => (
-            <code
-              style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                padding: '0.2em 0.4em',
-                borderRadius: '0.25rem',
-                fontSize: '0.9em',
-                fontFamily: 'monospace',
-              }}
-              {...props}
-            />
-          ),
           a: (props: ComponentProps) => (
             <a
               style={{
@@ -274,9 +270,25 @@ export default function MDXRenderer({ source }: MDXRendererProps) {
               {...props}
             />
           ),
+          span: (props: ComponentProps) => {
+            if (props.className === 'highlight') {
+              return (
+                <span
+                  style={{
+                    backgroundColor: 'var(--accent)',
+                    color: 'var(--text-primary)',
+                    padding: '0.1em 0.3em',
+                    borderRadius: '0.2em',
+                  }}
+                  {...props}
+                />
+              );
+            }
+            return <span {...props} />;
+          },
         }}
       >
-        {source}
+        {processedSource}
       </ReactMarkdown>
     </div>
   );
