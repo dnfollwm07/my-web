@@ -6,6 +6,7 @@
 - [網絡層](#網絡層)
 - [網絡接口層](#網絡接口層)
 - [每層的數據封裝](#每層的數據封裝)
+- [模型對照](#模型對照)
 
 
 ## 應用層
@@ -53,5 +54,16 @@
 | 傳輸層（TCP） | 段（segment） | TCP頭 |
 | 網絡層（IP） | 包（packet） | IP頭 |
 | 網絡接口層（IP） | 幀（frame） | MAC頭 |
+
+## 模型對照
+| OSI 模型層級（7層） | TCP/IP 模型層級（4層） | 功能說明 | 常見協定/技術 |
+|-------|-------|-------|-------|
+| 第七層：應用層 (Application) | 第四層：應用層 (Application) | 提供應用程式介面與服務 | HTTP, HTTPS, FTP, SMTP, DNS |
+| 第六層：表示層 (Presentation) | ⬆ 合併在 TCP/IP 的應用層 | 資料格式轉換、加密解密 | SSL/TLS, JPEG, MP3 |
+| 第五層：會話層 (Session) | ⬆ 合併在 TCP/IP 的應用層 | 建立與管理應用層之間的連線 | RPC, NetBIOS |
+| 第四層：傳輸層 (Transport) | 第三層：傳輸層 (Transport) | 負責端對端通訊與可靠性控制 | TCP, UDP |
+| 第三層：網路層 (Network) | 第二層：網絡層 (Internet) | 負責路由選擇與 IP 封包傳遞 | IP, ICMP, ARP, IGMP |
+| 第二層：資料鏈結層 (Data Link) | 第一層：網絡接口層 (Network Interface) | 控制資料在網路媒介上的存取 | Ethernet, Wi-Fi, MAC, PPP |
+| 第一層：實體層 (Physical) | ⬆ 合併在 TCP/IP 的網絡接口層 | 傳輸電氣訊號/光訊號 | Fiber, Cable, 無線電波 |
 
 [^1]: 以太網是一種**在局域網內將附近設備連接起來**允許通訊的技術，組成包含：電腦上的以太網接口、WiFi接口、以太網交換機、路由器上的千兆/萬兆以太網口、網線

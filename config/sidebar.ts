@@ -20,15 +20,23 @@ export const sidebarItems: SidebarItem[] = [
     children: [
       { 
         title: '計算機網絡', 
-        href: '/notes/network/network',
+        href: '/notes/network/index',
         children: [
           { 
             title: '網絡模型', 
             href: '/notes/network/model' 
           },
           { 
+            title: '網卡、路由器、交換機', 
+            href: '/notes/network/router_switch' 
+          },
+          { 
             title: '瀏覽器解析Url', 
             href: '/notes/network/webParseUrl' 
+          },
+          { 
+            title: 'HTTP', 
+            href: '/notes/network/http' 
           },
           { 
             title: 'TCP', 
