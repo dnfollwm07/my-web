@@ -30,6 +30,18 @@ export const sidebarItems: SidebarItem[] = [
             title: '瀏覽器解析Url', 
             href: '/notes/network/webParseUrl' 
           },
+          { 
+            title: 'TCP', 
+            href: '/notes/network/tcp' 
+          },
+          { 
+            title: 'IP', 
+            href: '/notes/network/ip' 
+          },
+          { 
+            title: 'MAC', 
+            href: '/notes/network/mac' 
+          },
         ]
       },
       { 
