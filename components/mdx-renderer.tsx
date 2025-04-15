@@ -30,6 +30,28 @@ const processHighlight = (text: string) => {
   return text.replace(/==([^=]+)==/g, '<span class="highlight">$1</span>');
 };
 
+const generateId = (children: React.ReactNode): string => {
+  if (!children) return '';
+  
+  // Convert ReactNode to string
+  let text = '';
+  React.Children.forEach(children, (child) => {
+    if (typeof child === 'string' || typeof child === 'number') {
+      text += child;
+    } else if (React.isValidElement(child) && child.props.children) {
+      text += generateId(child.props.children);
+    }
+  });
+  
+  // Use a more reliable method for generating IDs from Chinese text
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, '-')    // Replace spaces with hyphens
+    .replace(/[^\w\u4e00-\u9fa5-]/g, '') // Keep alphanumeric, Chinese chars and hyphens
+    .replace(/-+/g, '-')     // Replace multiple hyphens with single hyphen
+    .replace(/^-+|-+$/g, ''); // Trim hyphens from start and end
+};
+
 export default function MDXRenderer({ source }: MDXRendererProps) {
   const processedSource = processHighlight(source);
 
@@ -82,50 +104,70 @@ export default function MDXRenderer({ source }: MDXRendererProps) {
               {...props}
             />
           ),
-          h1: (props: ComponentProps) => (
-            <h1
-              style={{
-                fontSize: '2.5rem',
-                margin: '2rem 0 1rem',
-                fontWeight: 'bold',
-                color: 'var(--text-primary)',
-              }}
-              {...props}
-            />
-          ),
-          h2: (props: ComponentProps) => (
-            <h2
-              style={{
-                fontSize: '2rem',
-                margin: '1.5rem 0 1rem',
-                fontWeight: 'bold',
-                color: 'var(--text-primary)',
-              }}
-              {...props}
-            />
-          ),
-          h3: (props: ComponentProps) => (
-            <h3
-              style={{
-                fontSize: '1.5rem',
-                margin: '1.25rem 0 1rem',
-                fontWeight: 'bold',
-                color: 'var(--text-primary)',
-              }}  
-              {...props}
-            />
-          ),
-          h4: (props: ComponentProps) => (
-            <h4
-              style={{
-                fontSize: '1.25rem',
-                margin: '1rem 0',
-                fontWeight: 'bold',
-                color: 'var(--text-primary)',
-              }}
-              {...props}
-            />
-          ),
+          h1: (props: ComponentProps) => {
+            const id = generateId(props.children);
+            return (
+              <h1
+                id={id}
+                style={{
+                  fontSize: '2.5rem',
+                  margin: '2rem 0 1rem',
+                  fontWeight: 'bold',
+                  color: 'var(--text-primary)',
+                  scrollMarginTop: '100px',
+                }}
+                {...props}
+              />
+            );
+          },
+          h2: (props: ComponentProps) => {
+            const id = generateId(props.children);
+            return (
+              <h2
+                id={id}
+                style={{
+                  fontSize: '2rem',
+                  margin: '1.5rem 0 1rem',
+                  fontWeight: 'bold',
+                  color: 'var(--text-primary)',
+                  scrollMarginTop: '100px',
+                }}
+                {...props}
+              />
+            );
+          },
+          h3: (props: ComponentProps) => {
+            const id = generateId(props.children);
+            return (
+              <h3
+                id={id}
+                style={{
+                  fontSize: '1.5rem',
+                  margin: '1.25rem 0 1rem',
+                  fontWeight: 'bold',
+                  color: 'var(--text-primary)',
+                  scrollMarginTop: '100px',
+                }}
+                {...props}
+              />
+            );
+          },
+          h4: (props: ComponentProps) => {
+            const id = generateId(props.children);
+            return (
+              <h4
+                id={id}
+                style={{
+                  fontSize: '1.25rem',
+                  margin: '1rem 0',
+                  fontWeight: 'bold',
+                  color: 'var(--text-primary)',
+                  scrollMarginTop: '100px',
+                }}
+                {...props}
+              />
+            );
+          },
           ul: (props: ComponentProps) => (
             <ul
               style={{
@@ -250,16 +292,67 @@ export default function MDXRenderer({ source }: MDXRendererProps) {
               {...props}
             />
           ),
-          a: (props: ComponentProps) => (
-            <a
-              style={{
-                color: 'var(--accent)',
-                textDecoration: 'underline',
-                cursor: 'pointer',
-              }}
-              {...props}
-            />
-          ),
+          a: (props: ComponentProps) => {
+            const href = props.href as string;
+            if (href?.startsWith('#')) {
+              // Extract the target ID from the href
+              const targetId = href.slice(1);
+              
+              return (
+                <a
+                  href={href}
+                  style={{
+                    color: 'var(--accent)',
+                    textDecoration: 'underline',
+                    cursor: 'pointer',
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    
+                    // Try to find the element by direct ID
+                    let target = document.getElementById(targetId);
+                    
+                    // If not found, try to generate the ID using our algorithm
+                    if (!target && targetId) {
+                      // We need to find all headings and check if any matches our target
+                      const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                      for (let i = 0; i < headings.length; i++) {
+                        const heading = headings[i] as HTMLElement;
+                        const headingText = heading.textContent || '';
+                        const generatedId = headingText
+                          .toLowerCase()
+                          .replace(/\s+/g, '-')
+                          .replace(/[^\w\u4e00-\u9fa5-]/g, '')
+                          .replace(/-+/g, '-')
+                          .replace(/^-+|-+$/g, '');
+                        
+                        if (generatedId === targetId || decodeURIComponent(targetId) === headingText) {
+                          target = heading;
+                          break;
+                        }
+                      }
+                    }
+                    
+                    if (target) {
+                      target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  {...props}
+                />
+              );
+            }
+            
+            return (
+              <a
+                style={{
+                  color: 'var(--accent)',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+                {...props}
+              />
+            );
+          },
           hr: (props: ComponentProps) => (
             <hr
               style={{

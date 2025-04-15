@@ -23,8 +23,12 @@ export const sidebarItems: SidebarItem[] = [
         href: '/notes/network/network',
         children: [
           { 
-            title: '計算機網絡 (Network)', 
-            href: '/notes/network/network' 
+            title: '網絡模型', 
+            href: '/notes/network/model' 
+          },
+          { 
+            title: '瀏覽器解析Url', 
+            href: '/notes/network/webParseUrl' 
           },
         ]
       },

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import MDXRenderer from './mdx-renderer';
-import { mdxComponents } from './mdx-styles';
 
 export const MarkdownEditor = () => {
   const [markdown, setMarkdown] = useState('');
@@ -15,13 +14,13 @@ export const MarkdownEditor = () => {
       height: 'calc(100vh - 4rem)',
       padding: '1rem',
     }}>
-      {/* 编辑区域 */}
+      {/* 編輯區域 */}
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
       }}>
-        <h3 style={{ marginBottom: '1rem' }}>编辑区</h3>
+        <h3 style={{ marginBottom: '1rem' }}>編輯區</h3>
         <textarea
           value={markdown}
           onChange={(e) => setMarkdown(e.target.value)}
@@ -36,7 +35,7 @@ export const MarkdownEditor = () => {
             lineHeight: '1.6',
             resize: 'none',
           }}
-          placeholder="在这里输入 Markdown 内容..."
+          placeholder="在這裡輸入 Markdown 內容..."
         />
       </div>
 
@@ -47,7 +46,7 @@ export const MarkdownEditor = () => {
         height: '100%',
         overflow: 'auto',
       }}>
-        <h3 style={{ marginBottom: '1rem' }}>预览区</h3>
+        <h3 style={{ marginBottom: '1rem' }}>預覽區</h3>
         <div style={{
           flex: 1,
           padding: '1rem',
