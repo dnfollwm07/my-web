@@ -1,0 +1,53 @@
+# CSS 優化與預處理器
+
+## 目錄
+- [撰寫高效 CSS 的注意事項](#撰寫高效-css-的注意事項)
+- [CSS 預處理器](#css-預處理器)
+- [CSS 框架](#css-框架)
+
+## 撰寫高效 CSS 的注意事項
+* **選擇器效率**：簡化選擇器鏈，避免使用過於通用的選擇器。
+  * 選擇器鏈的長度越短，瀏覽器確定元素是否匹配選擇器的速度越快。
+* **BEM 方法**：為每個元素使用單一類並體現層級結構。
+  * 每個元素都有一個單一的類，並且在需要層次結構的地方，這種結構也被融入到類名中，這自然使選擇器高效且易於覆蓋。
+* **性能考量**：了解 CSS 屬性對性能的影響，特別是重排(reflow)和重繪(repaint)的觸發。
+  * 在 react-native 中將無用的參數作為 props 傳遞，當更新時，會重新渲染。
+
+## CSS 預處理器
+* 優點
+  1. **提高可維護性** (More maintainable)：
+     - CSS 預處理器使得代碼更具可維護性，便於後期的修改和擴展。
+  2. **便於編寫嵌套選擇器** (Easy to write nested selectors)：
+     - 可以輕鬆編寫嵌套選擇器，使代碼更具結構性和可讀性。
+  3. **使用變量以保持主題一致性** (Variables for consistent theming)：
+     - 支持變量，可以在不同項目之間共享主題文件，確保風格的一致性。
+  4. **使用混入（Mixins）生成重複的 CSS** (repeated CSS)：
+     - 可以定義混入來生成重複的 CSS 代碼，減少冗餘。
+  5. **強大的功能**：
+     * 像 Sass 的循環 (loops)、列表 (lists) 和映射 (maps) 等功能使配置 (configuration) 更簡單，代碼不會過於冗長 (less verbose)。
+  6. **支持將代碼分割為多個文件** (Splitting your code into multiple file)：
+     - 雖然 CSS 文件也可以分割，但使用預處理器時可以更方便地管理多個文件。
+* 缺點
+  1. **需要工具進行預處理** (Requires tools)：
+     - 使用 CSS 預處理器需要相關的工具來進行編譯，這可能會增加工作量。
+  2. **重新編譯時間可能較慢** (Re-compilation time can be slow)：
+     - 當代碼變更時，重新編譯的時間可能較慢，影響開發效率。
+  3. **不使用當前可用的 CSS** (Not writing currently and potentially usable CSS)：
+     - 使用預處理器可能無法編寫當前及未來可用的 CSS。例如，使用像 postcss-loader 這樣的工具，允許編寫未來兼容的 CSS，這樣可以使用 CSS 變量而非 Sass 變量。這樣一來，學習新技能可能會在未來標準化時獲得回報，但這樣的過渡會增加學習的難度。
+* 預處理器種類：
+  * **Sass (Syntactically Awesome Style Sheets)**：
+    * 最流行的 CSS 預處理器之一，提供了變量 (variables)、嵌套規則 (nested rules)、混入（mixins）、繼承 (inheritance) 等功能。Sass 有兩種語法：`.scss`（類似於 CSS 的語法）和 `.sass`（縮排語法）
+    * 可以將 `.scss` 或 `.sass` 文件編譯 (compile) 成標準 (standard) 的 `.css` 文件
+    * 可以在 JavaScript 應用中方便地集成 (integrated) 使用，例如在使用 Webpack、Gulp、Grunt 等構建工具時
+    * 基於 LibSass 實現 (Implemented based on LibSass)，性能高效 (highly efficient)，能夠快速編譯 Sass 代碼
+    * 可以設置監聽文件的變化 (set up file watchers)，自動重新編譯 (automatically recompile) Sass 文件，即時預覽 (instant previews)
+
+## CSS 框架
+* 我知道有 Bootstrap 和 Semantic UI 等框架，但在我之前的經驗中，我們使用的是內部定制的 CSS 框架。
+* 從使用情況來看，我認為它可能基於 Ant Design。
+* **Bootstrap**：發佈周期較慢，Bootstrap 4 已經處於 alpha 階段近 2 年。可以增加一個「加載中」的按鈕組件，因為它應用廣泛。
+* **Semantic UI**：源代碼結構使得主題自定義非常難以理解，它的非傳統主題系統使得自定義十分困難。配置路徑在庫內部被硬編碼。不像 Bootstrap 那樣容易覆蓋變量，對於自定義需求支持不夠友好。
+* **Bulma**：需要使用許多非語義化和多餘的類名和標記。向後兼容性較差，升級版本時可能會產生微妙的應用故障。
+* **Ant Design**：採用一套**規範化的設計語言**，使界面風格更一致。
+  - 樣式類名：通常較少直接使用類名，更多是通過 React 組件或 API 的 props 來控制樣式，如 `<Button type="primary" />`（primary, default, dashed, text, link）
+  - 組件：提供了豐富的 UI 組件，適合管理平台的開發，並內建表單驗證、動態布局等功能。 

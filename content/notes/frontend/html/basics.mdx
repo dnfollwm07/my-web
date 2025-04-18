@@ -1,0 +1,129 @@
+# HTML 基礎
+
+## 目錄
+- [DOCTYPE](#doctype)
+- [開發多語言頁面](#開發多語言頁面)
+- [data-屬性](#data-屬性)
+- [HTML5 語義化標籤](#html5-語義化標籤)
+- [可選標籤](#可選標籤)
+- [空元素](#空元素)
+
+## DOCTYPE
+
+```html
+<!DOCTYPE html>
+```
+
+* 用於網頁**聲明文檔類型**
+* 告訴**用戶代理**您的文檔遵循哪個**HTML規範版本**
+* 是**文檔類型**的縮寫
+* 始終與**DTD**（文檔類型定義）相關聯
+  * DTD定義了特定類型的文檔應該如何結構化
+    （例如，`button`可以包含`span`但不能包含`div`）
+
+## 開發多語言頁面
+
+* **語言偏好**：當用戶請求頁面時，其瀏覽器通常會在`Accept-Language` **標頭**中發送語言偏好。
+
+* **提供正確語言**：**服務器**可以使用此信息返回請求語言的文檔（如果可用）。**HTML文檔**應在`<html>`標籤中包含`lang`屬性（例如，`<html lang="en">`）
+
+  * 如何獲取用戶語言
+
+    ```javascript
+    const userLang = navigator.language || navigator.userLanguage; 
+    
+    // 覆蓋原先`<html lang="en">`的設定
+    document.documentElement.setAttribute("lang", userLang); 
+    ```
+
+    ```javascript
+    // 使用 Cookie 或 Local Storage，用戶選擇並存儲
+    
+    // 設定和獲取用戶選擇的語言
+    function setUserLanguage(lang) {
+        localStorage.setItem('preferredLanguage', lang);
+        document.documentElement.setAttribute("lang", lang);
+    }
+    
+    const storedLang = localStorage.getItem('preferredLanguage');
+    const userLang = storedLang || navigator.language || 'en';
+    document.documentElement.setAttribute("lang", userLang);
+    ```
+
+* **搜索引擎通知**：為了讓**搜索引擎**知道同一內容有不同語言版本，在`<head>`部分使用`hreflang`屬性（例如，`<link rel="alternate" hreflang="de" href="http://de.example.com/page.html" />`）。
+
+  * 使用 `hreflang="x-default"` 的鏈接表示一個通用的 URL，適用於未匹配到任何語言的情況。這通常用於提供一個默認的頁面。
+
+* **動態內容生成**：在後端，使用YML或JSON等格式以不同語言存儲內容。然後服務器通常使用後端框架動態生成所選語言的HTML頁面。
+
+* 支持多語言時，請注意UI外觀。小心文字掉出畫面或重疊
+
+  ```jsx
+  <Text
+    style={styles.text}
+    numberOfLines={1} // 限制為一行
+    ellipsizeMode="tail" // 超出部分用省略號表示
+  >
+  ```
+
+* **時區轉換**和**檢查日期格式**在不同地點也很重要
+
+* 有用的做法 - 在路徑中包含區域設置（例如en_US、zh_CN等）。
+
+## data-屬性
+
+* HTML5 引入的一種屬性
+* 使用 `data-` 屬性將**自定義數據**存儲於DOM中的頁面或應用程序的**私有**數據
+* 優勢	
+  1. **簡單明了**: 開發者可以輕鬆地在 HTML 中添加和檢索數據，而不需要額外的 JavaScript 對象。
+  2. **與元素關聯**: 數據可以直接與 DOM 元素關聯，使得數據更具可讀性和可維護性。
+* 缺點
+  1. **易於修改**: 使用者可以通過瀏覽器的「檢查元素」輕易修改 `data-` 屬性的值，這可能會影響應用的行為。
+  2. **不建議過度使用**: 現在的開發實踐更傾向於將數據模型保存在 JavaScript 中，並通過數據綁定來更新 DOM，特別是使用框架（如 React、Vue 等）時。
+
+  ```html
+  <div id="product" data-id="12345" data-name="Example Product">
+  	...
+  </div>
+  <script>
+      // 獲取產品數據
+      const productElement = document.getElementById('product');
+      const productId = productElement.getAttribute('data-id');
+      const productName = productElement.getAttribute('data-name');
+  </script>
+  ```
+
+* 用途
+  * 為**端到端測試框架**添加**鉤子**
+  * 合適使用場景是為端到端測試框架添加鉤子。開發者可以在不創建意義不明的類或 ID 屬性的情況下，方便地找到元素。
+
+## HTML5 語義化標籤
+
+HTML5 引入了更具語義性的標籤，使開發者能夠更準確地描述內容的含義：
+
+* `<header>` - 定義文檔或節的頁眉
+* `<nav>` - 定義導航鏈接的容器
+* `<article>` - 定義獨立、自包含的內容
+* `<section>` - 定義文檔中的節
+* `<aside>` - 定義頁面內容之外的內容
+* `<footer>` - 定義文檔或節的頁腳
+
+使用語義化標籤的好處：
+- 有助於**搜索引擎**更好地理解網頁內容
+- 幫助**屏幕閱讀器**等輔助技術更好地導航
+- 使代碼更具可讀性和可維護性
+
+## 可選標籤
+
+* 根據 HTML5 規範，某些 HTML 標籤（如 `<head>` 和 `<body>`）現在是可選的。
+* Google 的樣式指南甚至建議移除它們來節省字節數。
+* 然而，這種做法仍然沒有被廣泛採用，因為這種性能增益很小，對大多數網站來說並不重要或不會帶來明顯的效果。
+
+## 空元素
+
+* 在開始和結束標籤之間**不包含任何內容**的元素
+* 它們是自閉合標籤，意味著在結束角括號（`>`）之前有一個斜杠（`/`）
+  * `<img>`: 用於將圖像嵌入文檔。
+  * `<input>`: 用於接受用戶輸入。
+  * `<br>`: 用於插入換行符或強制換行符。
+  * `<hr>`: 用於創建水平規則或分隔符。 

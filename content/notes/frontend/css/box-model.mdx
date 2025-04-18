@@ -1,0 +1,92 @@
+# CSS 盒模型與顯示屬性
+
+## 目錄
+- [盒模型 (Box Model)](#盒模型-box-model)
+- [CSS display 屬性](#css-display-屬性)
+- [塊狀格式化上下文 (BFC)](#塊狀格式化上下文-bfc)
+
+## 盒模型 (Box Model)
+* **每個 HTML 元素**都可以被視為一個盒子，盒模型定義了**元素大小**的計算方式。
+* 包括**內容、內邊距、邊框和外邊距**。
+* CSS 盒模型負責計算：
+  - 塊元素佔據的**空間大小**
+  - 邊框和/或外邊距是否**重疊**或**折疊**
+  - 盒子的**尺寸**
+
+* 盒模型有以下規則：
+  - 塊元素的尺寸由 `width`、`height`、`padding`、`border` 和 `margin` 計算。
+  - 元素的 `height` 由內容的 `height` 計算。
+  - 如果未指定 `height`，塊元素將與其包含的內容（加上 `padding`）一樣高（除非有浮動元素）。
+  - 元素的 `width` 由內容的 `width` 計算。
+  - 如果未指定 `width`，非浮動塊元素將擴展以適應其父元素的寬度減去 `padding`。
+  - 默認情況下，`padding` 和 `border` 不是元素的 `width` 和 `height` 的一部分。
+
+* **標準盒模型（`content-box`）**：
+  * `總寬度 = width + padding + border + margin`
+  * padding、border、margin 在寬度中==不包含==！
+  * 使布局計算更**復雜**
+  * 當 padding 和 border 應該添加到元素尺寸時有用
+
+* **替代盒模型（`border-box`）**：
+  * `width = content + padding + border`
+  * content、padding、border 在寬度中==包含==！
+  * 在現代布局中通常首選，因為它保持寬度/高度一致，**簡化響應式設計**
+
+```css
+/* 標準盒模型 */
+element {
+    box-sizing: content-box; /* 這是默認值 */
+}
+
+/* 替代盒模型 */
+element {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+```
+
+## CSS display 屬性
+
+| `display`      | 描述                                                         |
+| :------------- | :----------------------------------------------------------- |
+| `none`         | 不顯示元素（元素不再影響文檔的布局）。所有子元素也不再顯示。文檔的渲染就像該元素不存在於文檔樹中一樣 |
+| `block`        | 元素在塊方向（通常是水平方向）上佔據整行                     |
+| `inline`       | 元素可以並排放置                                             |
+| `inline-block` | 類似於 `inline`，但允許設置 `width` 和 `height` 等塊屬性     |
+| `table`        | 行為類似於 `<table>` 元素                                    |
+| `table-row`    | 行為類似於 `<tr>` 元素                                       |
+| `table-cell`   | 行為類似於 `<td>` 元素                                       |
+| `list-item`    | 行為類似於 `<li>` 元素，允許定義 `list-style-type` 和 `list-style-position` |
+
+### inline 和 inline-block
+
+對於 display 屬性，有 **block** 和 **inline**，以及 inline-block（兩者的**混合**）。
+
+inline-block 和 inline 之間的區別是：
+
+* inline-block 可以像 block 一樣**指定寬度和高度**
+* **所有邊的外邊距和內邊距都可以使用**，而 inline 只有水平邊有效
+
+|                         | `block`                                       | `inline-block`                               | `inline`                                     |
+| ----------------------- | --------------------------------------------- | -------------------------------------------- | -------------------------------------------- |
+| 大小                    | **填滿父容器的寬度**                          | 取決於內容                                   | 取決於內容                                   |
+| 定位                    | **另起一行**，不允許 HTML 元素在其旁邊（除非使用 `float`） | 與其他內容一起流動，允許其他元素在其旁邊     | 與其他內容一起流動，允許其他元素在其旁邊     |
+| 能否指定 `width` 和 `height` | **是**                                        | **是**                                       | 否。如果設置，將被**忽略**                   |
+| 可用 `vertical-align` 對齊 | 否                                            | **是**                                       | **是**                                       |
+| 外邊距和內邊距         | 所有邊都受尊重                                | 所有邊都受尊重                               | 只有水平邊受尊重。如果指定垂直邊，不會影響布局。它佔據的**垂直**空間取決於 `line-height`（不是 height，會被忽略），即使 `border` 和 `padding` 在視覺上出現在內容周圍 |
+| 浮動                    | -                                             | -                                            | 變成類似 `block` 元素，可以設置**垂直外邊距和內邊距** |
+
+## 塊狀格式化上下文 (BFC)
+* 網頁的視覺 CSS 渲染，其中排列**塊盒**
+* BFC 是滿足以下條件之一的 HTML 盒子：
+  - `float` 的值不是 `none`
+  - `position` 的值既不是 `static` 也不是 `relative`
+  - `display` 的值是 `table-cell`、`table-caption`、`inline-block`、`flex` 或 `inline-flex`、`grid` 或 `inline-grid`
+  - `overflow` 的值不是 `visible`
+* BFC 是一個獨立的佈局區域，BFC 中的元素不會與外部元素重疊，並且它可以用於控制元素的排列方式、清除浮動等
+* 在 BFC 中，每個框的左外邊緣會緊貼包含塊的左邊緣（在從右至左的格式中則是右邊緣緊貼） 

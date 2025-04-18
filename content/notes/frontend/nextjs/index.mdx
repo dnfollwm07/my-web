@@ -1,0 +1,197 @@
+# Next.js 介绍与特点
+
+## 目录
+- [Next.js介绍](#nextjs介绍)
+- [Next.js特点](#nextjs特点)
+- [常见面试题](#常见面试题)
+- [示例代码](#示例代码)
+- [注意事项](#注意事项)
+
+## Next.js介绍
+Next.js 是一个基于 React 的轻量级服务端渲染（SSR）框架，由 Vercel 团队开发。它旨在简化 React 应用的开发过程，同时提供高效的性能和良好的用户体验。
+
+Next.js is a lightweight server-side rendering (SSR) framework based on React, developed by the Vercel team. It aims to simplify the development process of React applications while providing high performance and a good user experience.
+
+## Next.js特点
+
+### 服务端渲染(SSR)
+Next.js 默认支持服务端渲染，即在服务器端生成 HTML 内容并发送到客户端。这种方式可以提高页面加载速度，提升 SEO 效果，增强用户体验。
+
+By default, Next.js supports server-side rendering, which means generating HTML content on the server side and sending it to the client. This approach can improve page load speed, enhance SEO, and provide a better user experience.
+
+### 静态生成(SSG)
+Next.js 支持静态生成，即在构建时生成静态 HTML 文件。适合静态内容，如博客、文档等，可以显著提高性能和安全性。
+
+Next.js supports static site generation (SSG), which means generating static HTML files at build time. It is suitable for static content, such as blogs and documentation, and can significantly improve performance and security.
+
+### 自动代码分割
+Next.js 会自动将代码分割成多个小块，按需加载。这可以减少初始加载时间，提高应用性能。
+
+Next.js automatically splits the code into smaller chunks and loads them on demand. This can reduce the initial load time and improve the application's performance.
+
+### 路由系统
+Next.js 提供了一个强大的路由系统，支持动态路由和嵌套路由。这简化了路由配置，支持动态页面和嵌套页面。
+
+Next.js provides a powerful routing system that supports dynamic and nested routes. This simplifies route configuration and supports dynamic and nested pages.
+
+### API路由
+Next.js 支持在项目中定义 API 路由，方便前后端分离开发。无需额外的后端框架，简化开发流程。
+
+Next.js supports defining API routes within the project, which facilitates front-end and back-end separation development. It eliminates the need for an additional back-end framework and simplifies the development process.
+
+### 静态文件服务
+Next.js 提供静态文件服务，可以直接在项目中放置静态文件。这简化了静态文件管理，方便开发。
+
+Next.js provides static file services, allowing you to place static files directly in the project. This simplifies static file management and makes development easier.
+
+### 配置灵活
+Next.js 提供了丰富的配置选项，可以通过 `next.config.js` 进行自定义配置。这满足了不同项目需求，提供了高度的可定制性。
+
+Next.js offers a wide range of configuration options that can be customized through `next.config.js`. This meets the needs of different projects and provides a high degree of customizability.
+
+### 生态系统丰富
+Next.js 拥有丰富的生态系统，包括插件、工具和社区支持。这方便了功能扩展和问题解决。
+
+Next.js has a rich ecosystem, including plugins, tools, and community support. This facilitates function expansion and problem-solving.
+
+## 常见面试题
+
+### Next.js的SSR和SSG有什么区别？
+SSR 是在服务器端动态生成 HTML 内容，适合动态数据。SSG 是在构建时生成静态 HTML 文件，适合静态内容。
+
+SSR dynamically generates HTML content on the server side, suitable for dynamic data. SSG generates static HTML files at build time, suitable for static content.
+
+### 如何在Next.js中实现国际化？
+使用 `next-i18next` 插件，配置多语言支持。在 `_app.js` 中设置语言切换逻辑。
+
+Use the `next-i18next` plugin to configure multi-language support and set up language switching logic in `_app.js`.
+
+### 如何优化Next.js应用的性能？
+使用静态生成（SSG）和自动代码分割。启用缓存机制。优化图片加载。
+
+Use static site generation (SSG) and automatic code splitting. Enable caching mechanisms. Optimize image loading.
+
+### 如何在Next.js中实现状态管理？
+使用 React 的 Context API 或集成 Redux 等状态管理库。
+
+Use React's Context API or integrate state management libraries like Redux.
+
+### 如何在Next.js中实现自定义服务器？
+使用 `next start` 命令启动自定义服务器。在 `server.js` 中配置自定义逻辑。
+
+Use the `next start` command to start a custom server and configure custom logic in `server.js`.
+
+## 示例代码
+
+### 服务端渲染示例
+```javascript
+// pages/ssr.js
+import { useState, useEffect } from 'react';
+
+const SSRPage = ({ data }) => {
+  return (
+    <div>
+      <h1>服务端渲染页面</h1>
+      <p>{data}</p>
+    </div>
+  );
+};
+
+export async function getServerSideProps(context) {
+  const res = await fetch('https://api.example.com/data');
+  const data = await res.json();
+  return { props: { data } };
+}
+
+export default SSRPage;
+```
+```javascript
+// pages/ssr.js
+import { useState, useEffect } from 'react';
+
+const SSRPage = ({ data }) => {
+  return (
+    <div>
+      <h1>Server-Side Rendering Page</h1>
+      <p>{data}</p>
+    </div>
+  );
+};
+
+export async function getServerSideProps(context) {
+  const res = await fetch('https://api.example.com/data');
+  const data = await res.json();
+  return { props: { data } };
+}
+
+export default SSRPage;
+```
+
+### 静态生成示例
+```javascript
+// pages/ssg.js
+import { useState, useEffect } from 'react';
+
+const SSGPage = ({ data }) => {
+  return (
+    <div>
+      <h1>静态生成页面</h1>
+      <p>{data}</p>
+    </div>
+  );
+};
+
+export async function getStaticProps() {
+  const res = await fetch('https://api.example.com/data');
+  const data = await res.json();
+  return { props: { data } };
+}
+
+export default SSGPage;
+```
+```javascript
+// pages/ssg.js
+import { useState, useEffect } from 'react';
+
+const SSGPage = ({ data }) => {
+  return (
+    <div>
+      <h1>Static Site Generation Page</h1>
+      <p>{data}</p>
+    </div>
+  );
+};
+
+export async function getStaticProps() {
+  const res = await fetch('https://api.example.com/data');
+  const data = await res.json();
+  return { props: { data } };
+}
+
+export default SSGPage;
+```
+
+### API路由示例
+```javascript
+// pages/api/hello.js
+export default function handler(req, res) {
+  res.status(200).json({ name: 'John Doe' });
+}
+```
+```javascript
+// pages/api/hello.js
+export default function handler(req, res) {
+  res.status(200).json({ name: 'John Doe' });
+}
+```
+
+## 注意事项
+
+1. **性能优化**：始终关注应用的性能，使用 SSG 和自动代码分割。
+   Always pay attention to the application's performance, using SSG and automatic code splitting.
+2. **安全性**：确保 API 路由的安全性，避免暴露敏感信息。
+   Ensure the security of API routes and avoid exposing sensitive information.
+3. **国际化**：如果项目需要支持多语言，提前规划国际化方案。
+   If the project needs to support multiple languages, plan the internationalization scheme in advance.
+4. **状态管理**：选择合适的状态管理方案，避免过度复杂化。
+   Choose an appropriate state management solution to avoid over-complicating the process.

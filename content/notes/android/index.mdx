@@ -1,0 +1,25 @@
+### **Android Development**
+
+- **Java and Android Components (Activity, Service, BroadcastReceiver, ContentProvider, Fragment):**
+  Java is the main language for Android apps. Android components include **Activities (for screens)**, **Services (for background tasks)**, **BroadcastReceivers (for receiving system messages)**, **ContentProviders (for data sharing)**, and **Fragments (for reusable UI parts)**. These components work together to create responsive and interactive mobile apps.
+  - **Android lifecycle** 
+    - **onCreate()**
+      Called when the Activity is first created; used for initializing components like layout and data.
+    - **onStart()**
+      Called when the Activity becomes visible but not yet in the foreground.
+    - **onResume()**
+      Called when the Activity is in the foreground and ready for user interaction; typically used for animations or refreshing UI.
+    - **onPause()**
+      Called when the Activity is about to leave the foreground; good for saving temporary data or stopping animations.
+    - **onStop()**
+      Called when the Activity is no longer visible; release resources not needed when off-screen.
+    - **onDestroy()**
+      Called before the Activity is destroyed, either from user action or system memory constraints; used for final cleanup.
+    - **onRestart()**
+      Called when restarting a stopped Activity; often used to re-initialize resources.
+- **Native Bridges, OkHttp, Retrofit:**
+  Native bridges let JavaScript work with native Android code, so apps can access hardware or system features. OkHttp is a tool for handling HTTP requests, and Retrofit, built on OkHttp, simplifies connecting to web APIs and managing data.
+- **RxJava, MVVM, MVP Patterns:**
+  RxJava helps manage data as streams, making it easier to handle complex tasks like loading and refreshing data. MVVM (Model-View-ViewModel) and MVP (Model-View-Presenter) are ways of organizing code to keep the UI and logic separate, making apps easier to maintain.
+
+### **

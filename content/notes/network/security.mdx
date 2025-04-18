@@ -1,0 +1,17 @@
+# 網路安全攻擊
+
+## XSS vs CSRF
+
+### XSS (Cross-Site Scripting)
+- 攻擊者注入惡意腳本到網頁以竊取數據或控制網站。
+- 防護措施：
+  - 轉義/清理用戶輸入
+  - 使用內容安全策略 (CSP)
+  - 使用自動轉義內容的框架（如React）
+
+### CSRF (Cross-Site Request Forgery)
+- 欺騙用戶提交在已經認證的網站上的非預期操作。
+- 防護措施：
+  - 使用CSRF令牌
+  - 設置SameSite cookie屬性
+  - 驗證敏感請求的來源 

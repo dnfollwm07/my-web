@@ -1,0 +1,81 @@
+# 個人簡介
+
+## 目錄
+- [教育經歷](#教育經歷)
+- [工作經歷](#工作經歷)
+- [工作項目經歷](#工作項目經歷)
+
+## 教育經歷
+Hello! my name is Jing-Ning Su, you can call me Michelle. I am currently a first-year master’s student in the Master of Computer Science program at the University of Virginia. My expected to graduate time is December 2025. I completed my undergraduate studies in Computer Science and Technology at Zhejiang University in China. 
+
+## 工作經歷
+After graduation, I worked as a full-time front-end developer at Meituan in Beijing, China, for two years. There, I was part of the transportation front-end team, where my main responsibilities included maintaining the airline ticket purchase channels on the Meituan and Dianping apps, as well as in WeChat mini-programs, which are accessible to millions of daily users. Additionally, I managed the configuration system for airline ticket suppliers.
+
+This high-traffic environment required me to be consistently aware of online security and design comprehensively for optimal user experience. Our primary tech stack included React Native, Vue.js, JavaScript, TypeScript, HTML5, and CSS. Beyond fulfilling development requirements, we emphasized code simplicity, readability, and reusability. Over two years, I developed over 20 reusable business components, such as buttons, tab navigation bars, and display cards, which reduced workload across the team. Additionally, we implemented an efficient development model by incorporating a low-code platform for the merchant suppliers, reducing our team’s workload.
+
+When it comes to user-facing applications, I prioritize optimizing first content paint time. In addition to strategies like reducing bundle size and preloading requests, I optimized monitoring by utilizing the company's internal profile API to automate daily alerts and analysis, significantly reducing the maintenance burden on the team.
+
+### 工作項目經歷
+**B2C Flight Booking System**
+
+**Situation:**
+At Meituan, I was tasked with leading the iteration and maintenance of several sections of the flight booking channel, needed continuous feature enhancements and some were even legacy systems.
+
+**Task:**
+My goal was to modernize the existing system, enhance the UI, improve performance, and ensure scalability while maintaining a seamless user experience across both the Meituan App and WeChat Mini Programs.
+
+**Action:**
+I modernized the legacy systems, leveraging scalable module designs and focusing on core business logic integration. To improve performance, I implemented lazy loading for components that are not primary, i.e. ads, and pre-requests to optimize the first contentful paint time. I collaborated closely with the platform department to unify the user experience across different platforms.
+
+**Result:**
+Over two years, I developed and launched 100+ new features, improved UI boundary styles, and enhanced performance, reducing page load times by 16.7%. This led to a 3% increase in user satisfaction and booking conversions, while also saving 30% of future maintenance time.
+
+
+
+**On-Call Process Standardization and Tool Development**
+
+**Situation:**
+The on-call management at my group was chaotic, with no effective tracking system. This led to delays, inefficiencies, and increased operational costs.
+
+**Task:**
+I was tasked with identifying the issues and leading the redesign of on-call practices, aiming to streamline the process, improve team efficiency, and reduce operational costs.
+
+**Action:**
+I redesigned the on-call management system, gaining trust from the team by implementing strict execution control. I also integrated AI development knowledge, using ChatGPT and RAG technology to develop an on-call bot that automated problem handling and knowledge base updates.
+
+**Result:**
+This initiative resulted in a 50% reduction in on-call manpower and a 37% reduction in consultation workload via the AI bot. It led to a 93% team satisfaction rate and significantly reduced operational costs.
+
+
+
+**PageV Low-Code Platform and B2B Agent Communication Tool**
+
+**Situation:**
+My team was facing high frontend development workload and inefficiencies in communication between customer service and suppliers, which impacted operational costs and traceability.
+
+**Task:**
+I was responsible for developing a new communication tool that would reduce frontend development time and streamline customer service interactions. However, because rapid modifications are required to the system, I had to find a way that product managers can modify it by themsilves in the future.
+
+**Action:**
+I looked into the system"PageV" built a few years ago, and led the maintenance of the it, enabling low-code page configuration to reduce frontend development. I developed several new functions and added to the system, focusing on scalability, sensitive data handling, and real-time communication, and allowed it to be dragged by non-developers to build a website by themselves.
+
+**Result:**
+The project reduced future development time by 45% and deployment time by 70%. Also, for users, it saved 5.4 person-days of weekly customer service work and allowed non-developers to manage maintenance independently, significantly reducing operational overhead.
+
+### 項目難點
+The most challenging aspect of the project was continuously reducing the time to the First Contentful Paint (FCP) for the page. To optimize the app's time-to-interactive, we employed several key technical strategies.
+
+First, to **reduce the size of loading bundles**, we implemented **tree-shaking to eliminate unused code**. For example, with Lodash, we used a Babel plugin to transform `import _ from 'lodash'` into more efficient module imports like `import throttle from 'lodash/throttle'`, significantly reducing the bundle size. 
+
+Additionally, we **replaced larger third-party libraries**, such as swapping **moment.js with day.js**, to minimize dependency sizes. We also used **image compression** tools like TinyPNG to compress images, keeping only the necessary high-resolution resources, which reduced the initial resource load of the package.
+
+For **preloading**, we utilized preloading mechanisms to accelerate resource fetching. By using a PN file, we implemented dynamic resource loading with listeners, allowing us to issue requests early and synchronize them with the main bundle load, effectively reducing waiting times. Additionally, our request merging strategy optimized network requests using interceptors, where preloaded data is returned directly, avoiding redundant requests.
+
+Another thing we did is **request merging**, minimizing the number of requests sent while loading page. Move unecessary ones to when the user really needs it.
+
+Finally, we focused on **optimizing rendering**, especially for lists and large images. By configuring attributes in components like FlatList and VirtualizedList, such as `initialNumToRender` and `maxToRenderPerBatch`, we optimized the initial render of lists, avoiding rendering too many items at once. We also pre-calculate the hight of each cell and set it in one of the attribute of flatList, which also helps increase efficiency.
+
+With page **preloading** and the RAM bundle mechanism, we preloaded the next page’s bundle in advance and reused short-lived engine instances, significantly enhancing page-switching performance and improving the app's time-to-interactive.
+
+### 個人特質
+And about my personalities, in my previous academic and professional experiences, I learned the importance of collaboration, working closely with product managers and testers to enhance ideas and solutions. I'm highly results-driven, always focused on delivering timely, high-quality outcomes and holding myself and others accountable. I strongly believe in a customer-centric approach, bridging user needs and technology to enhance convenience and user experience. I have experience influencing positive change within teams through organized communication and gradual implementation. My strong judgment allows me to make quick, accurate decisions during problem-solving, such as issue triage and hotfixes, minimizing user impact. Additionally, I am highly adaptable, having worked in various environments to build resilience and avoid complacency, continuously strengthening my ability to thrive in change.

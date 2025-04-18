@@ -1,0 +1,118 @@
+# HTML 客戶端存儲
+
+## 目錄
+- [客戶端存儲機制比較](#客戶端存儲機制比較)
+- [localStorage](#localstorage)
+- [sessionStorage](#sessionstorage)
+- [cookie](#cookie)
+- [IndexedDB](#indexeddb)
+
+## 客戶端存儲機制比較
+
+* 客戶端存儲的關鍵機制
+
+| 特性         | `cookie`                               | `localStorage`                                           | `sessionStorage` |
+| ------------ | -------------------------------------- | -------------------------------------------------------- | ---------------- |
+| 發起者       | 客戶端或服務器。服務器可以使用 `Set-Cookie` 標頭 | 客戶端           | 客戶端       |
+| 過期時間     | 手動設置                                 | 永久              | 標籤關閉時     |
+| 跨瀏覽器會話持久性 | 取決於是否設置了過期時間               | 是                | 否            |
+| 隨每個 HTTP 請求發送到服務器 | Cookie 通過 `Cookie` 標頭自動發送     | 否                | 否            |
+| 容量（每個域） | 4kb                                    | 5MB               | 5MB           |
+| 可訪問性     | 任何窗口                                | 任何窗口          | 同一標籤頁     |
+
+* *如果用戶決定通過瀏覽器提供的任何機制清除瀏覽數據，這將清除任何 `cookie`、`localStorage` 或 `sessionStorage` 存儲的數據*
+
+## localStorage
+
+localStorage 將數據**永久存儲在瀏覽器中**，即使刷新頁面或關閉瀏覽器後數據依然存在。
+
+```javascript
+// 存儲數據
+localStorage.setItem('username', 'Alice');
+
+// 獲取數據
+const username = localStorage.getItem('username');
+console.log(username); // "Alice"
+
+// 刪除數據
+localStorage.removeItem('username');
+
+// 清空所有 localStorage 數據
+localStorage.clear();
+```
+
+## sessionStorage
+
+sessionStorage 在當前**會話中保存數據**，當瀏覽器或頁籤關閉後數據會自動刪除。
+
+```javascript
+// 存儲數據
+sessionStorage.setItem('tempData', 'value');
+
+// 獲取數據
+const data = sessionStorage.getItem('tempData');
+
+// 刪除數據
+sessionStorage.removeItem('tempData');
+
+// 清空所有 sessionStorage 數據
+sessionStorage.clear();
+```
+
+## cookie
+
+Cookie 是一種小型文本文件，網站用來存儲用戶信息。
+
+```javascript
+// 設置 cookie
+document.cookie = "username=John; expires=Thu, 18 Dec 2023 12:00:00 UTC; path=/";
+
+// 獲取 cookie
+const cookies = document.cookie;
+
+// 刪除 cookie（設置過期時間為過去）
+document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+```
+
+Cookie 的選項：
+- `expires`: 設置 cookie 的過期日期
+- `max-age`: 設置 cookie 的壽命（秒）
+- `path`: 指定 cookie 的路徑
+- `domain`: 指定 cookie 可訪問的域
+- `secure`: 只通過 HTTPS 發送 cookie
+- `HttpOnly`: 防止通過 JavaScript 訪問 cookie（只能由服務器讀取）
+- `SameSite`: 控制跨站點請求如何處理 cookie
+
+## IndexedDB
+
+IndexedDB 是一種客戶端數據庫，用於存儲大量結構化數據。
+
+```javascript
+// 開啟或創建一個新的 IndexedDB 資料庫
+const request = indexedDB.open("myDatabase", 1);
+
+// 定義資料庫架構
+request.onupgradeneeded = function(event) {
+  const db = event.target.result;
+  const objectStore = db.createObjectStore("customers", { keyPath: "id" });
+  objectStore.createIndex("name", "name", { unique: false });
+};
+
+// 成功打開資料庫
+request.onsuccess = function(event) {
+  const db = event.target.result;
+  
+  // 添加數據
+  const transaction = db.transaction(["customers"], "readwrite");
+  const objectStore = transaction.objectStore("customers");
+  objectStore.add({ id: 1, name: "John", email: "john@example.com" });
+  
+  // 獲取數據
+  const getRequest = objectStore.get(1);
+  getRequest.onsuccess = function(event) {
+    console.log(event.target.result);
+  };
+};
+```
+
+IndexedDB 適用於存儲大型數據，例如 JSON 格式的數據，可以實現更複雜的數據結構和檢索功能。 

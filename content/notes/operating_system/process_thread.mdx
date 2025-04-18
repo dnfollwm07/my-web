@@ -1,0 +1,68 @@
+## 進程與線程
+
+#### Parallelism（並行） v.s. Concurrency（並發）
+
+* **並行 (Parallelism)**：指的是**多個任務同時執**行。這通常需要**多個處理器或多核處理器**來真正地同時執行不同的任務。
+* **並發 (Concurrency)**：指的是多個任務可以在**同一時間段**內進行，這些任務可能會**交替執行**，但並不一定是真正的同時進行。並發是透過在單個處理器上快速切換任務來達成的，使得它們「看起來」像是同時進行。
+
+#### Thread（線程）v.s. Process（進程）
+
+* **Process（進程）:** A process is the **basic unit** of **resource management** and **execution** in a computer system.
+  進程是計算機系統中資源管理和執行的基本單位。
+
+  * **Inter-Process Communication (IPC)（進程間通信）:**
+    To enable **data transfer, resource sharing, event notification, and control** between processes.
+    進程間通信的目的是數據傳輸、資源共享、事件通知和進程控制。
+
+    * **Pipes (Anonymous and Named):**
+      Pipes allow **half-duplex communication**; **anonymous pipes** for **related** processes, **named pipes** for **unrelated** processes.
+      管道允許半雙工通信；無名管道用于有親緣關係的進程，有名管道用于無親緣關係的進程。
+
+      * 半雙工通信：
+
+      數據傳輸可以在通信雙方之間雙向進行，但在同一時間內，僅允許一方傳輸數據，另一方需要等待。
+
+      一方按下按鈕說話時，另一方只能接收，無法同時回應；當第一方結束傳輸後，另一方才可以開始傳輸數據
+
+    * **Message Queue:**
+      A **queue** that allows processes to **send and receive** structured messages.
+      消息隊列允許進程傳送和接收結構化消息。
+
+    * **Shared Memory:**
+      **Fastest** communication method where processes access a **common memory space**.
+      共享內存是最快的通信方式，進程可以訪問共同的內存空間。
+
+    * **Semaphore:**
+      Used for **synchronization** and **mutual exclusion** by controlling access to **shared resources**.
+      信號量用於同步和互斥，控制對共享資源的訪問。
+
+    * **Signal:**
+      Notifies a process of **specific events**.
+      信號用于通知進程特定事件的發生。
+
+    * **Socket:**
+      Allows communication between **processes** on **different machines**.
+      套接字允許不同計算機之間的進程通信。
+
+* **Thread（線程）:**A thread is a smaller unit of execution within a process, serving as a subdivision of a process.
+  線程是進程內更小的執行單位，是進程的細化劃分。
+
+  * **Methods to Create Threads:**
+    1. **Extending the Thread Class:**
+       Create a subclass of `Thread`, override the `run` method, and start the thread using the `start()` method.
+       繼承 `Thread` 類，重寫 `run` 方法，並用 `start()` 方法啟動線程。
+    2. **Implementing the Runnable Interface:**
+       Define a class that implements `Runnable`, override the `run` method, and pass it as a target to a new `Thread` instance.
+       定義實現 `Runnable` 接口的類，重寫 `run` 方法，並將其作為目標傳入新的 `Thread` 實例。
+    3. **Creating Threads with Callable and Future:**
+       Define a `Callable` implementation, which includes a `call()` method as the thread's task, with a return value.
+       通過實現 `Callable` 接口並定義 `call()` 方法來創建線程任務，該方法具有返回值。
+       1. **Wrap the Callable in a FutureTask:**
+          Use `FutureTask` to wrap the `Callable` object. `FutureTask` will contain the return value of `call()`.
+          使用 `FutureTask` 包裝 `Callable` 對象，`FutureTask` 將封裝 `call()` 方法的返回值。
+       2. **Use FutureTask as the Thread’s Target:**
+          Pass the `FutureTask` as the target of a new `Thread` and start the thread.
+          將 `FutureTask` 作為新 `Thread` 的目標並啟動線程。
+       3. **Retrieve the Result with get():**
+          Call the `get()` method on `FutureTask` to retrieve the result after the thread completes.
+          線程執行完畢後，通過調用 `FutureTask` 的 `get()` 方法獲取結果。

@@ -1,0 +1,80 @@
+# CSS 布局屬性
+
+## 目錄
+- [定位 (Position)](#定位-position)
+- [浮動 (Float)](#浮動-float)
+- [z-index](#z-index)
+- [清除技術](#清除技術)
+- [網格系統 (Grid System)](#網格系統-grid-system)
+- [translate() 與 absolute 比較](#translate-與-absolute-比較)
+
+## 定位 (Position)
+* **static**：
+  預設值。元素依據文檔的正常流來排列，無法使用 `top`、`right`、`bottom` 或 `left` 來調整位置。
+
+* **relative**：
+  相對定位。元素會根據文檔正常流排列，但可以用 `top`、`right`、`bottom` 或 `left` 進行相對於自己原來位置的位移。**位移後，其佔據的空間仍保留在原位**置。
+
+* **absolute**：
+  絕對定位。元素從文檔流中移除，根據最近的 `position` 非 `static` 的祖先元素進行定位，沒有的話則相對於 `<html>` 頁面進行定位。
+
+* **fixed**：
+  固定定位。元素從文檔流中移除，並相對於視口（viewport）進行定位，不受滾動影響。常用於設置**固定導航欄**等。
+
+* **sticky**：
+  粘性定位。元素在 `relative` 和 `fixed` 之間切換，當滾動到一定位置時（依據 `top`、`right`、`bottom` 或 `left`），會固定在該位置，適合用於頁面滾動中的導航欄。
+
+## 浮動 (Float)
+* CSS **定位**屬性。
+* 浮動元素仍然是頁面流的一部分，會影響其他元素的定位（例如，**文本會環繞浮動元素**），與 `position: absolute` 元素不同，後者從頁面流中移除。
+* CSS `clear` 屬性可用於將元素定位在 `left`/`right`/`both` 浮動元素的下方。
+* 如果父元素只包含浮動元素，則其**高度將折疊為零**。
+* 可以通過在容器內的浮動元素之後但在容器關閉前**清除浮動**來修復此問題。
+* `.clearfix` hack 使用巧妙的 CSS [偽選擇器](https://www.frontendinterviewhandbook.com/css-questions#describe-pseudo-elements-and-discuss-what-they-are-used-for)（`::after`）來清除浮動。不是在父元素上設置 overflow，而是對其應用額外的類 `clearfix`。然後應用此 CSS：
+
+```css
+.clearfix::after {
+  content: ' ';
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+```
+
+* 現在很少使用 float，更多使用 **flexbox** 或 **grid**。
+
+## z-index
+* 控制重疊元素的**垂直堆疊**順序。
+* 元素**定位**不能是**static**。
+* 具有**非靜態**定位的元素（及其子元素）總是出現在具有默認靜態定位的元素**之上**，不管 HTML 層次結構如何。
+* **堆疊上下文**
+  * 包含一組層。
+  * 本地堆疊上下文：外部上下文的層不能位於其中的層之間。
+  * 如果元素 B 位於元素 A 之上，則元素 A 的子元素 C 永遠不能高於元素 B，即使元素 C 的 `z-index` 高於元素 B。
+
+## 清除技術
+* 空 `div` 方法 - `<div style="clear:both;"></div>`。
+* Clearfix 方法 - 參考上面的 `.clearfix` 類。
+* `overflow: auto` 或 `overflow: hidden` 方法 - 父元素將建立新的塊格式化上下文並擴展以包含其浮動子元素。
+
+在大型項目中，我會編寫一個實用的 `.clearfix` 類，並在需要的地方使用它。如果子元素高於父元素，`overflow: hidden` 可能會裁剪子元素，這不是很理想。
+
+## 網格系統 (Grid System)
+* 我最常使用 flexbox。
+* **Flexbox** 的特點
+  * **一維布局** (One-dimensional Layout)：Flexbox 是一種一維布局模型，主要用於處理行或列中的元素對齊和分佈。這意味著你可以輕鬆地在單個維度上（水平或垂直）排列子元素。
+  * **彈性對齊** (Flexible Alignment)：Flexbox 提供了強大的對齊和分佈選項，允許你根據容器的大小自動調整元素的大小和位置。
+  * **適應性強** (Responsive Design)：Flexbox 使得響應式設計變得更加簡單，因為它可以根據容器的大小自動調整元素的排列方式，這對於移動設備尤為重要。
+  * **Use Flexbox** 當你需要**一維布局**（在行或列中）並希望在元素之間分配空間或沿著一個軸對齊它們時。
+* **CSS Grid**
+  * **二維**布局模型。
+  * 允許同時在行和列中排列。
+  * 適用於**更複雜的布局需求**，如設計**整個頁面的網格結構**。
+    * **Use CSS Grid** 當你需要創建**二維布局**（既有行又有列）並對兩個軸都有精確控制時。它非常適合複雜的布局，如具有頭部、側邊欄、主要內容和頁腳的網頁，你需要同時控制垂直和水平對齊。
+
+## translate() 與 absolute 比較
+* 改變 `transform` 或 `opacity` 不會觸發（trigger）瀏覽器的重排（reflow）或重繪（repaint），只會觸發組合（composite）。
+* 改變 `absolute positioning` 屬性會觸發重排（reflow），這可能會降低性能。
+* `translate()` 通常會讓瀏覽器為該元素創建一個 GPU 層，利用 GPU 處理，而 `absolute positioning` 屬性則依賴 CPU。
+* `translate()` 更適合用於**動畫 (animation) 和流暢的過渡效果 (transition effect)**，因為其效率較高，渲染更順暢。 
