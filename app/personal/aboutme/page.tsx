@@ -1,13 +1,13 @@
 import { promises as fs } from 'fs'
 import path from 'path'
-import MDXRenderer from '@/components/mdx-renderer'
+import MDXPage from '@/components/mdx-page'
 
 export default async function AboutMePage() {
   const filePath = path.join(process.cwd(), 'content', 'personal', 'aboutme.mdx')
   
   try {
     const source = await fs.readFile(filePath, 'utf8')
-    return <MDXRenderer source={source} />
+    return <MDXPage source={source} />
   } catch (error) {
     return <div>Page not found</div>
   }
