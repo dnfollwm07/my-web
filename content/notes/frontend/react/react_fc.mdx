@@ -1,0 +1,140 @@
+# React.FC
+
+## 目录
+- [ReactFC介绍](#reactfc介绍)
+- [ReactFC特点](#reactfc特点)
+- [ReactFC与ReactComponent的区别](#reactfc与reactcomponent的区别)
+- [常见面试题](#常见面试题)
+- [示例代码](#示例代码)
+- [注意事项](#注意事项)
+
+## ReactFC介绍
+`React.FC` 是一个 TypeScript 类型，用于定义 React 函数组件的类型签名。它提供了一种标准的方式来定义组件的 props 类型，使代码更加类型安全。
+
+`React.FC` is a TypeScript type used to define the type signature of a React functional component. It provides a standard way to define the types of component props, making the code more type-safe.
+
+## ReactFC特点
+
+### 类型安全
+通过使用 `React.FC`，可以明确指定组件的 props 类型，从而在开发过程中捕获类型错误。
+
+By using `React.FC`, you can explicitly specify the types of component props, thereby capturing type errors during development.
+
+### 简化代码
+`React.FC` 提供了一种简洁的方式来定义函数组件，减少了样板代码。
+
+`React.FC` provides a concise way to define functional components, reducing boilerplate code.
+
+### 默认支持 children
+`React.FC` 默认支持 `children` 属性，无需手动声明。
+
+`React.FC` supports the `children` property by default, eliminating the need for manual declaration.
+
+## ReactFC与ReactComponent的区别
+
+### ReactFC
+- **定义方式**：使用函数组件。
+- **类型安全**：通过 TypeScript 提供类型安全。
+- **默认支持 children**：默认支持 `children` 属性。
+- **使用场景**：适用于函数组件。
+
+### ReactComponent
+- **定义方式**：使用类组件。
+- **类型安全**：通过 TypeScript 提供类型安全。
+- **默认支持 children**：需要手动声明 `children` 属性。
+- **使用场景**：适用于类组件。
+
+## 常见面试题
+
+### ReactFC是什么？
+`React.FC` 是一个 TypeScript 类型，用于定义 React 函数组件的类型签名。它提供了一种标准的方式来定义组件的 props 类型，使代码更加类型安全。
+
+`React.FC` is a TypeScript type used to define the type signature of a React functional component. It provides a standard way to define the types of component props, making the code more type-safe.
+
+### ReactFC和ReactComponent有什么区别？
+`React.FC` 是用于函数组件的类型签名，而 `React.Component` 是用于类组件的类型签名。`React.FC` 默认支持 `children` 属性，而 `React.Component` 需要手动声明。
+
+`React.FC` is a type signature for functional components, while `React.Component` is a type signature for class components. `React.FC` supports the `children` property by default, while `React.Component` requires manual declaration.
+
+### 如何使用ReactFC定义组件？
+```typescript
+import React from 'react';
+
+interface Props {
+  name: string;
+}
+
+const MyComponent: React.FC<Props> = ({ name, children }) => {
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      {children}
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+### ReactFC是否支持 children 属性？
+是的，`React.FC` 默认支持 `children` 属性，无需手动声明。
+
+Yes, `React.FC` supports the `children` property by default, eliminating the need for manual declaration.
+
+## 示例代码
+
+### ReactFC示例
+```typescript
+import React from 'react';
+
+interface Props {
+  name: string;
+}
+
+const MyComponent: React.FC<Props> = ({ name, children }) => {
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      {children}
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+### 使用示例
+```typescript
+import React from 'react';
+import MyComponent from './MyComponent';
+
+const App: React.FC = () => {
+  return (
+    <MyComponent name="Kimi">
+      <p>This is a child element.</p>
+    </MyComponent>
+  );
+};
+
+export default App;
+```
+
+## 注意事项
+
+1. **类型安全**：
+   - 使用 `React.FC` 时，确保明确指定 props 类型，以捕获类型错误。
+   - When using `React.FC`, ensure that you explicitly specify the types of props to capture type errors.
+
+2. **默认支持 children**：
+   - `React.FC` 默认支持 `children` 属性，无需手动声明。
+   - `React.FC` supports the `children` property by default, eliminating the need for manual declaration.
+
+3. **函数组件**：
+   - `React.FC` 仅适用于函数组件，不适用于类组件。
+   - `React.FC` is only applicable to functional components and not to class components.
+
+4. **性能优化**：
+   - 虽然 `React.FC` 提供了类型安全，但它不会影响组件的性能。
+   - While `React.FC` provides type safety, it does not affect the performance of the component.
+
+通过理解 `React.FC` 的概念和使用方法，你可以更好地编写类型安全的 React 函数组件。

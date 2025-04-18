@@ -85,7 +85,19 @@ export const sidebarItems: SidebarItem[] = [
               {
                 title: 'useMemo, useState',
                 href: '/notes/frontend/react/useMemo_useState'
-              }
+              },
+              {
+                title: 'react.FC',
+                href: '/notes/frontend/react/react_fc'
+              },
+              {
+                title: 'useEffect',
+                href: '/notes/frontend/react/useEffect'
+              },
+              {
+                title: '模塊範例',
+                href: '/notes/frontend/react/component_examples'
+              },
             ]
           },
           {

@@ -1,0 +1,256 @@
+## 模塊範例
+
+### ✅ **1. Create a reusable Button component with TypeScript props**  
+**題目：**  
+Create a reusable `Button` component in React using TypeScript. The button should accept `label`, `onClick`, and an optional `variant` prop (like 'primary' or 'secondary') that changes its style.
+
+```tsx
+// Button.tsx
+import React from 'react';
+
+type ButtonProps = {
+  label: string;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary';
+};
+
+const Button: React.FC<ButtonProps> = ({ label, onClick, variant = 'primary' }) => {
+  const style = {
+    backgroundColor: variant === 'primary' ? '#007bff' : '#6c757d',
+    color: 'white',
+    padding: '8px 16px',
+    border: 'none',
+    borderRadius: '4px',
+  };
+
+  return <button onClick={onClick} style={style}>{label}</button>;
+};
+
+export default Button;
+```
+
+---
+
+### ✅ **2. Build a Todo List component with add/delete functionality**  
+**題目：**  
+Build a simple Todo List component where users can add a todo item and delete it. Each item should be displayed in a list with a delete button.
+
+```tsx
+// TodoList.tsx
+import React, { useState } from 'react';
+
+const TodoList: React.FC = () => {
+  const [input, setInput] = useState('');
+  const [todos, setTodos] = useState<string[]>([]);
+
+  const addTodo = () => {
+    if (input.trim() !== '') {
+      setTodos([...todos, input]);
+      setInput('');
+    }
+  };
+
+  const deleteTodo = (index: number) => {
+    setTodos(todos.filter((_, i) => i !== index));
+  };
+
+  return (
+    <div>
+      <input value={input} onChange={(e) => setInput(e.target.value)} />
+      <button onClick={addTodo}>Add</button>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>
+            {todo} <button onClick={() => deleteTodo(index)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TodoList;
+```
+
+---
+
+### ✅ **3. Create a responsive Navbar component**  
+**題目：**  
+Create a responsive navigation bar using React and Tailwind CSS. The nav links should collapse into a hamburger menu on mobile devices.
+
+```tsx
+// Navbar.tsx
+import React, { useState } from 'react';
+
+const Navbar: React.FC = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <nav className="bg-blue-600 p-4 text-white">
+      <div className="flex justify-between items-center">
+        <div className="text-xl font-bold">MyApp</div>
+        <button className="md:hidden" onClick={() => setOpen(!open)}>☰</button>
+        <ul className={`md:flex gap-4 ${open ? 'block' : 'hidden'} md:block`}>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
+```
+
+---
+
+### ✅ **4. Create a Search Filter component**  
+**題目：**  
+Given a list of items, create a search bar that filters and displays only matching results as the user types.
+
+```tsx
+// SearchFilter.tsx
+import React, { useState } from 'react';
+
+const items = ['apple', 'banana', 'grape', 'orange', 'watermelon'];
+
+const SearchFilter: React.FC = () => {
+  const [query, setQuery] = useState('');
+
+  const filtered = items.filter(item =>
+    item.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return (
+    <div>
+      <input
+        placeholder="Search..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
+      <ul>
+        {filtered.map((item, i) => <li key={i}>{item}</li>)}
+      </ul>
+    </div>
+  );
+};
+
+export default SearchFilter;
+```
+
+---
+
+### ✅ **5. Build a Light/Dark Theme Toggle component**  
+**題目：**  
+Create a theme toggle switch component that lets the user switch between light and dark mode. The theme should persist across refresh (use localStorage).
+
+```tsx
+// ThemeToggle.tsx
+import React, { useEffect, useState } from 'react';
+
+const ThemeToggle: React.FC = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+      setDarkMode(true);
+      document.body.classList.add('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (darkMode) {
+      document.body.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    setDarkMode(!darkMode);
+  };
+
+  return (
+    <button onClick={toggleTheme}>
+      Switch to {darkMode ? 'Light' : 'Dark'} Mode
+    </button>
+  );
+};
+
+export default ThemeToggle;
+```
+
+---
+
+### ✅ **6. Create a form with validation (TypeScript)**  
+**題目：**  
+Build a contact form with fields: name, email, and message. Validate that all fields are filled and that the email is valid. Show inline error messages.
+
+```tsx
+// ContactForm.tsx
+import React, { useState } from 'react';
+
+type FormState = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+const ContactForm: React.FC = () => {
+  const [form, setForm] = useState<FormState>({
+    name: '',
+    email: '',
+    message: '',
+  });
+  const [errors, setErrors] = useState<Partial<FormState>>({});
+
+  const validate = () => {
+    const newErrors: Partial<FormState> = {};
+    if (!form.name) newErrors.name = 'Name is required';
+    if (!form.email.includes('@')) newErrors.email = 'Email is invalid';
+    if (!form.message) newErrors.message = 'Message is required';
+    return newErrors;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const validation = validate();
+    if (Object.keys(validation).length === 0) {
+      alert('Form submitted!');
+      setForm({ name: '', email: '', message: '' });
+    } else {
+      setErrors(validation);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        placeholder="Name"
+        value={form.name}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+      />
+      {errors.name && <p>{errors.name}</p>}
+
+      <input
+        placeholder="Email"
+        value={form.email}
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+      />
+      {errors.email && <p>{errors.email}</p>}
+
+      <textarea
+        placeholder="Message"
+        value={form.message}
+        onChange={(e) => setForm({ ...form, message: e.target.value })}
+      />
+      {errors.message && <p>{errors.message}</p>}
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default ContactForm;
+```
