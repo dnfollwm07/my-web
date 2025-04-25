@@ -1,0 +1,178 @@
+# React 組件間通信方式筆記
+
+## 目錄
+- [1.Props（父傳子）](#1.Props（父傳子）)
+- [2.回呼函式（子傳父）](#2.回呼函式（子傳父）)
+- [3.Lift State Up（狀態提升）](#3.Lift_State_Up（狀態提升）)
+- [4.Context API（跨層通信）](#4.Context_API（跨層通信）)
+- [5.Refs（父控制子）](#5.Refs（父控制子）)
+- [6.狀態管理工具（Redux、Zustand、Jotai 等）](#6.狀態管理工具（Redux、Zustand、Jotai等）)
+- [7.事件總線/發佈-訂閱模式](#7.事件總線/發佈-訂閱模式)
+- [8.總結比較表](#8.總結比較表)
+
+## 1.Props（父傳子）
+
+父組件透過 `props` 傳遞資料給子組件，實現單向資料流。
+
+```jsx
+function Parent() {
+  return <Child message="Hello from parent" />;
+}
+
+function Child({ message }) {
+  return <p>{message}</p>;
+}
+```
+
+> 適用於：父子直接關係，單向資料傳遞
+
+---
+
+## 2.回呼函式（子傳父）
+
+子組件透過呼叫由父組件傳下來的函式，回傳資料或觸發事件。
+
+```jsx
+function Parent() {
+  const handleClick = (data) => {
+    console.log('Child says:', data);
+  };
+
+  return <Child onClick={handleClick} />;
+}
+
+function Child({ onClick }) {
+  return <button onClick={() => onClick('Hello!')}>Click Me</button>;
+}
+```
+
+> 適用於：子組件回傳事件或資料給父組件
+
+---
+
+## 3.Lift_State_Up（狀態提升）
+
+將狀態提升到兄弟組件的共同父組件，由父組件統一管理與共享。
+
+```jsx
+function Parent() {
+  const [text, setText] = useState("");
+
+  return (
+    <>
+      <InputComponent onChange={setText} />
+      <DisplayComponent value={text} />
+    </>
+  );
+}
+```
+
+> 適用於：兄弟組件共享資料或狀態
+
+---
+
+## 4.Context_API（跨層通信）
+
+React 提供的全域資料共享方式，避免 props drilling（層層傳遞）。
+
+```jsx
+const ThemeContext = React.createContext();
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Header />
+    </ThemeContext.Provider>
+  );
+}
+
+function Header() {
+  return <Toolbar />;
+}
+
+function Toolbar() {
+  const theme = React.useContext(ThemeContext);
+  return <div>Theme is: {theme}</div>;
+}
+```
+
+> 適用於：跨層資料傳遞（如主題、語系、使用者資訊）
+
+---
+
+## 5.Refs（父控制子）
+
+父組件可以透過 `ref` 控制子組件內的 DOM 或方法。
+
+```jsx
+const Child = React.forwardRef((props, ref) => {
+  React.useImperativeHandle(ref, () => ({
+    alertHi() {
+      alert('Hi!');
+    }
+  }));
+
+  return <div>Child</div>;
+});
+
+function Parent() {
+  const childRef = useRef();
+
+  return (
+    <>
+      <Child ref={childRef} />
+      <button onClick={() => childRef.current.alertHi()}>Say Hi</button>
+    </>
+  );
+}
+```
+
+> 適用於：父組件需要操作子組件 DOM 或執行其方法
+
+---
+
+## 6.狀態管理工具（Redux、Zustand、Jotai等）
+
+使用外部套件集中管理狀態，適用於大型應用。
+
+```js
+// 使用 Redux：組件使用 useSelector 讀取資料，useDispatch 發送動作修改狀態
+```
+
+> 適用於：跨多個元件共享、修改狀態的情境，大型專案推薦
+
+---
+
+## 7.事件總線/發佈-訂閱模式
+
+建立一個全局事件中心讓彼此無關的元件互相通信。
+
+```js
+// 使用 mitt 套件
+import mitt from 'mitt';
+
+const emitter = mitt();
+export default emitter;
+
+// 發送事件
+emitter.emit('event-name', data);
+
+// 監聽事件
+emitter.on('event-name', (data) => { ... });
+```
+
+> 適用於：沒有父子或兄弟關係的組件之間的通信（例如通知、彈窗開啟）
+
+---
+
+## 8.總結比較表
+
+| 通信方式         | 適用場景                           |
+|------------------|------------------------------------|
+| Props            | 父傳子                             |
+| 回呼函式         | 子傳父                             |
+| 狀態提升         | 兄弟組件共享狀態                   |
+| Context API      | 跨多層元件共享資料（主題、使用者） |
+| Refs             | 控制子元件行為或存取 DOM          |
+| Redux / Zustand  | 複雜應用中的集中式狀態管理         |
+| Event Bus        | 任意組件之間解耦通信               |

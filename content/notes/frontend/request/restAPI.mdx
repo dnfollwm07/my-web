@@ -1,0 +1,60 @@
+# RestAPI
+
+## 目錄
+- [簡介](#簡介)
+- [特點](#特點)
+- [用途](#用途)
+- [常見方法](#常見方法)
+- [後端框架](#後端框架)
+
+## 簡介
+- 不是真正的程式語言或工具，而是一種「怎麼設計 API 接口」的方法。
+  - 規定了「如果你要做一個 API 給別人用，那你應該怎麼設計 URL 和操作方式」。
+  - 用 **URL 表示資源**，用 **HTTP 方法表示操作行為**。
+- 全名是 Representational State Transfer Application Programming Interface
+- 中文：表現層狀態轉移的應用程式介面
+- 一種設計**網路服務**（Web Service）的架構風格，讓不同系統之間可以透過 HTTP 進行溝通與資料交換。
+- 要怎麼看一個項目有沒有用？
+   - 看前端有沒有 **fetch/axios** 請求、URL 是否**資源導向**、或後端文件有沒有提到。
+
+## 特點
+- 基於 HTTP 協議（如 GET、POST、PUT、DELETE）
+- 無狀態（Stateless）：每次請求都是獨立的，不會記住前一次的狀態
+- 資源導向（Resource-Oriented）：一切皆是「資源」，如用戶、文章、商品等
+  - 在 REST 的世界中，你可以把每個你想操作的「資料單位」當作一種資源（Resource）。
+  - 舉例來說，如果你有一個網站賣東西，就會有這些常見的資源：
+     - 用戶（Users）
+     - 商品（Products）
+     - 訂單（Orders）
+     - 評論（Comments）
+   - 這些資源都是「名詞」，是你要操作的對象。
+- 用 URL 代表資源，用 HTTP 方法代表操作行為
+  - 每個資源都有對應的 URL（統一資源定位符），就像每個房子有門牌號碼。
+  - URL 是資源的地址，每個資源就像住在一個特定的位置。
+  - Ex: 
+    - 所有用戶：https://example.com/users
+    - 單一用戶（ID為123）：https://example.com/users/123
+
+## 用途
+REST API 廣泛用於前後端溝通，例如：
+- 行動 App 與後端伺服器溝通（像天氣、地圖、登入）
+- 前端網站（React/Vue/Next.js）與後端交換資料
+- 第三方平台提供的 API（如 Facebook、Google Maps、OpenAI）
+
+## 常見方法
+|方法|說法|範例|
+|----|----|----|
+|GET|取得資源資料	|GET /users：取得所有用戶|
+|POST|建立新的資源|POST /users：新增用戶|
+|PUT|更新整個資源	|PUT /users/1：更新用戶編號1
+|
+|PATCH|局部更新資源|PATCH /users/1：改用戶名稱|
+|DELETE|刪除資源|DELETE /users/1：刪除用戶|
+
+## 後端框架
+如果你看到以下技術，大多數情況就是在實作 REST API：
+- Node.js + Express
+- Python Flask / Django REST framework
+- Spring Boot（Java）
+- Ruby on Rails
+- Laravel（PHP）

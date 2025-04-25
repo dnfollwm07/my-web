@@ -76,7 +76,7 @@ export const sidebarItems: SidebarItem[] = [
         children: [
           { 
             title: 'React', 
-            href: '/notes/frontend/react',
+            href: '/notes/frontend/react/index',
             children: [
               { 
                 title: 'React Hooks', 
@@ -87,17 +87,21 @@ export const sidebarItems: SidebarItem[] = [
                 href: '/notes/frontend/react/useMemo_useState'
               },
               {
-                title: 'react.FC',
-                href: '/notes/frontend/react/react_fc'
-              },
-              {
                 title: 'useEffect',
                 href: '/notes/frontend/react/useEffect'
+              },
+              {
+                title: 'react.FC',
+                href: '/notes/frontend/react/react_fc'
               },
               {
                 title: '模塊範例',
                 href: '/notes/frontend/react/component_examples'
               },
+              {
+                title: '組件通信',
+                href: '/notes/frontend/react/component_communication'
+              }
             ]
           },
           {
@@ -163,6 +167,16 @@ export const sidebarItems: SidebarItem[] = [
           {
             title: 'Nextjs',
             href: '/notes/frontend/nextjs/index'
+          },
+          {
+            title: 'Request',
+            href: '/notes/frontend/request',
+            children: [
+              {
+                title: 'RestAPI',
+                href: '/notes/frontend/request/restAPI'
+              }
+            ]
           }
         ]
       },
