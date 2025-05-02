@@ -1,21 +1,3 @@
-# 個人簡介
-
-## 目錄
-- [教育經歷](#教育經歷)
-- [工作經歷](#工作經歷)
-- [工作項目經歷](#工作項目經歷)
-
-## 教育經歷
-Hello! my name is Jing-Ning Su, you can call me Michelle. I am currently a first-year master’s student in the Master of Computer Science program at the University of Virginia. My expected to graduate time is December 2025. I completed my undergraduate studies in Computer Science and Technology at Zhejiang University in China. 
-
-## 工作經歷
-After graduation, I worked as a full-time front-end developer at Meituan in Beijing, China, for two years. There, I was part of the transportation front-end team, where my main responsibilities included maintaining the airline ticket purchase channels on the Meituan and Dianping apps, as well as in WeChat mini-programs, which are accessible to millions of daily users. Additionally, I managed the configuration system for airline ticket suppliers.
-
-This high-traffic environment required me to be consistently aware of online security and design comprehensively for optimal user experience. Our primary tech stack included React Native, Vue.js, JavaScript, TypeScript, HTML5, and CSS. Beyond fulfilling development requirements, we emphasized code simplicity, readability, and reusability. Over two years, I developed over 20 reusable business components, such as buttons, tab navigation bars, and display cards, which reduced workload across the team. Additionally, we implemented an efficient development model by incorporating a low-code platform for the merchant suppliers, reducing our team’s workload.
-
-When it comes to user-facing applications, I prioritize optimizing first content paint time. In addition to strategies like reducing bundle size and preloading requests, I optimized monitoring by utilizing the company's internal profile API to automate daily alerts and analysis, significantly reducing the maintenance burden on the team.
-
-### 工作項目經歷
 **B2C Flight Booking System**
 
 **Situation:**
@@ -62,7 +44,7 @@ I looked into the system"PageV" built a few years ago, and led the maintenance o
 **Result:**
 The project reduced future development time by 45% and deployment time by 70%. Also, for users, it saved 5.4 person-days of weekly customer service work and allowed non-developers to manage maintenance independently, significantly reducing operational overhead.
 
-### 項目難點
+### Challenges
 The most challenging aspect of the project was continuously reducing the time to the First Contentful Paint (FCP) for the page. To optimize the app's time-to-interactive, we employed several key technical strategies.
 
 First, to **reduce the size of loading bundles**, we implemented **tree-shaking to eliminate unused code**. For example, with Lodash, we used a Babel plugin to transform `import _ from 'lodash'` into more efficient module imports like `import throttle from 'lodash/throttle'`, significantly reducing the bundle size. 
@@ -76,6 +58,3 @@ Another thing we did is **request merging**, minimizing the number of requests s
 Finally, we focused on **optimizing rendering**, especially for lists and large images. By configuring attributes in components like FlatList and VirtualizedList, such as `initialNumToRender` and `maxToRenderPerBatch`, we optimized the initial render of lists, avoiding rendering too many items at once. We also pre-calculate the hight of each cell and set it in one of the attribute of flatList, which also helps increase efficiency.
 
 With page **preloading** and the RAM bundle mechanism, we preloaded the next page’s bundle in advance and reused short-lived engine instances, significantly enhancing page-switching performance and improving the app's time-to-interactive.
-
-### 個人特質
-And about my personalities, in my previous academic and professional experiences, I learned the importance of collaboration, working closely with product managers and testers to enhance ideas and solutions. I'm highly results-driven, always focused on delivering timely, high-quality outcomes and holding myself and others accountable. I strongly believe in a customer-centric approach, bridging user needs and technology to enhance convenience and user experience. I have experience influencing positive change within teams through organized communication and gradual implementation. My strong judgment allows me to make quick, accurate decisions during problem-solving, such as issue triage and hotfixes, minimizing user impact. Additionally, I am highly adaptable, having worked in various environments to build resilience and avoid complacency, continuously strengthening my ability to thrive in change.

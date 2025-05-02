@@ -6,14 +6,39 @@ export interface SidebarItem {
 
 export const sidebarItems: SidebarItem[] = [
   {
-    title: '我的介紹',
+    title: 'About Me',
     href: '/',
     children: [
-      { title: '個人簡介', href: '/personal/aboutme'},
+      { title: 'Education', href: '/personal/education'},
+      { title: 'Work Experience', href: '/personal/work_experience'},
     ],
   },
   {
-    title: '我的筆記',
+    title: 'My Projects',
+    href: '/projects',
+    children: [
+      {
+        title: 'Meituan',
+        href: '/projects/meituan'
+      },
+      {
+        title: 'My Web',
+        href: '/projects/my-web',
+        children: [
+          {
+            title: 'Tailwind CSS',
+            href: '/projects/my-web/tailwindcss'
+          },
+          {
+            title: 'Nextjs',
+            href: '/projects/my-web/nextjs'
+          }
+        ],
+      },
+    ]
+  },
+  {
+    title: 'My Notes',
     href: '/notes',
     children: [
       { 
@@ -197,26 +222,6 @@ export const sidebarItems: SidebarItem[] = [
         href: '/notes/tools/index'
       },
     ],
-  },
-  {
-    title: '我的項目',
-    href: '/projects',
-    children: [
-      {
-        title: 'My Web',
-        href: '/projects/my-web',
-        children: [
-          {
-            title: 'Tailwind CSS',
-            href: '/projects/my-web/tailwindcss'
-          },
-          {
-            title: 'Nextjs',
-            href: '/projects/my-web/nextjs'
-          }
-        ],
-      },
-    ]
   },
   {
     title: '預覽編輯器',
