@@ -42,7 +42,7 @@ export const sidebarItems: SidebarItem[] = [
     href: '/notes',
     children: [
       { 
-        title: '操作系統', 
+        title: 'Operating System', 
         href: '/notes/operating_system',
         children: [
           { 
@@ -52,7 +52,7 @@ export const sidebarItems: SidebarItem[] = [
         ]
       },
       { 
-        title: '計算機網絡', 
+        title: 'Network', 
         href: '/notes/network/index',
         children: [
           { 
@@ -86,7 +86,7 @@ export const sidebarItems: SidebarItem[] = [
         ]
       },
       { 
-        title: '數據結構', 
+        title: 'Data Structure', 
         href: '/notes/data_structure',
         children: [
           { 
@@ -96,7 +96,7 @@ export const sidebarItems: SidebarItem[] = [
         ]
       },
       { 
-        title: '前端基礎知識', 
+        title: 'Frontend', 
         href: '/notes/frontend/index',
         children: [
           { 
@@ -206,25 +206,25 @@ export const sidebarItems: SidebarItem[] = [
         ]
       },
       { 
-        title: '安卓基礎知識', 
+        title: 'Android', 
         href: '/notes/android/index'
       },
       { 
-        title: '後端基礎知識', 
+        title: 'Backend', 
         href: '/notes/backend/index'
       },
       { 
-        title: '其他綜合技術', 
+        title: 'Other Techniques', 
         href: '/notes/other_techniques/index'
       },
       { 
-        title: '工具', 
+        title: 'Tools', 
         href: '/notes/tools/index'
       },
     ],
   },
-  {
-    title: '預覽編輯器',
-    href: '/editor'
-  },
+  // {
+  //   title: '預覽編輯器',
+  //   href: '/editor'
+  // },
 ]; 
