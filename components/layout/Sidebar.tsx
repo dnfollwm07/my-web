@@ -33,6 +33,12 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ item }) => {
         )}
         <Link
           href={item.href}
+          onClick={(e) => {
+            if (hasChildren) {
+              e.preventDefault();
+              toggleItem(item.title);
+            }
+          }}
           style={{
             ...styles.itemLink,
             paddingLeft: hasChildren ? '0' : '2rem',
