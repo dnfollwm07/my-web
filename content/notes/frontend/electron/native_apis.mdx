@@ -1,0 +1,20 @@
+# 原生 API（Native APIs）
+
+Electron 提供許多強大的原生功能：
+
+## 常用 API 模組：
+
+| 模組                 | 說明                  |
+| ------------------ | ------------------- |
+| `app`              | 控制應用的生命週期，如啟動、關閉    |
+| `BrowserWindow`    | 建立與控制視窗             |
+| `dialog`           | 系統對話框（開檔、儲存、警告）     |
+| `shell`            | 開啟外部程式（如預設瀏覽器、檔案總管） |
+| `clipboard`        | 控制剪貼簿內容             |
+| `nativeTheme`      | 取得與控制深色模式設定         |
+| `powerSaveBlocker` | 防止系統進入休眠            |
+
+```javascript
+const { clipboard } = require('electron');
+clipboard.writeText('已複製到剪貼簿');
+```

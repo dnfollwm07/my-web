@@ -1,0 +1,36 @@
+# Main 與 Renderer Process
+
+## 目錄
+- [1.MainProcess（主進程）](#1.MainProcess（主進程）)
+- [2.RendererProcess（渲染進程）](#2.RendererProcess（渲染進程）)
+
+## 1.MainProcess（主進程）
+
+* 是 Electron 應用的主控制器，類似 Node.js 的後端伺服器。
+* 可以使用 Node.js 的所有 API 和 Electron 的主進程 API（如 `app`、`BrowserWindow`）。
+* 負責建立和管理視窗（Renderer Process）。
+* 只能有一個主進程，從 `main.js`（或 `main.ts`）啟動。
+* 一個 Electron 專案中可以建立**多個** BrowserWindow，並且這些視窗會在**同一個** Main Process（主進程） 中管理。
+
+```javascript
+// main.js
+const { app, BrowserWindow } = require('electron');
+
+app.whenReady().then(() => {
+  const win = new BrowserWindow({ width: 800, height: 600 });
+  win.loadFile('index.html');
+});
+```
+
+## 2.RendererProcess（渲染進程）
+
+* 負責渲染 UI，類似前端瀏覽器執行的環境。
+* 每個 `BrowserWindow` 都對應一個獨立的 Renderer（主進程負責創建與管理所有的視窗）。
+* 可以使用 DOM API、前端框架（React、Vue）及部分 Electron 提供的功能（需透過 IPC 與主進程溝通）。
+
+## 注意事項
+
+* 渲染進程無法直接使用 Node.js 模組，需透過預載（preload）腳本橋接。
+* 每個 BrowserWindow 都會佔用系統資源。
+* 若視窗之間需共享資料，應使用 IPC 通訊（或 shared preload context）。
+* 若開了太多視窗而未妥善管理，可能導致記憶體洩漏或效能下降。

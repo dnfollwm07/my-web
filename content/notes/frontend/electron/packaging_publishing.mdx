@@ -1,0 +1,31 @@
+# 應用打包與發佈
+
+## 打包工具
+
+* **Electron Forge**：官方推薦，提供開箱即用的打包與發佈流程。
+* **Electron Builder**：支援多平台發佈、代碼簽章、自動更新等進階功能。
+* **Electron Packager**：較輕量，可自訂性高。
+
+## 打包流程（以 Electron Forge 為例）：
+
+1. 安裝：
+
+```bash
+npx create-electron-app my-app
+cd my-app
+npm run make
+```
+
+2. 執行後會產出 `/out` 目錄，包含可執行安裝檔（Windows 的 `.exe`，macOS 的 `.dmg`）
+
+## 發佈到平台
+
+* **Windows**：可簽署 `.exe`，透過 NSIS 或 Squirrel 發佈。
+* **macOS**：需要 Apple 開發者帳號進行簽章與 notarize。
+* **Linux**：產出 `.AppImage`, `.deb` 等格式，自行發佈或上傳至 Snap/Flatpak。
+
+---
+
+## 注意事項
+* 應用上架 App Store / Microsoft Store 需符合其規範，如簽章、沙箱、安全權限等。
+* 發佈前應清除敏感訊息、測試安裝流程、設計自動更新機制。

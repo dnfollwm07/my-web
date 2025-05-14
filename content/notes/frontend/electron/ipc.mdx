@@ -1,0 +1,75 @@
+# IPC 通訊
+
+## 什麼是 IPC？
+
+> IPC（Inter-Process Communication）是主進程與渲染進程之間溝通的方式。
+
+Electron 提供了兩個核心模組：
+
+* `ipcMain`：主進程的接收端
+* `ipcRenderer`：渲染進程的發送端
+
+## 使用方式
+
+### 從渲染進程發送資料到主進程：
+
+```javascript
+// renderer.js
+const { ipcRenderer } = require('electron');
+
+ipcRenderer.send('ping', 'hello from renderer');
+```
+
+### 主進程接收資料：
+
+```javascript
+// main.js
+const { ipcMain } = require('electron');
+
+ipcMain.on('ping', (event, arg) => {
+  console.log(arg); // 'hello from renderer'
+});
+```
+
+### 主進程回傳資料（同步或異步）：
+
+```javascript
+// 主進程回應
+ipcMain.handle('get-data', async () => {
+  return { message: '資料來自主進程' };
+});
+```
+
+```javascript
+// 渲染進程請求並等待回傳
+const result = await ipcRenderer.invoke('get-data');
+console.log(result.message);
+```
+
+---
+
+## 示例代碼
+
+```javascript
+// 渲染進程：發送資料
+ipcRenderer.send('log', '用戶點擊了按鈕');
+
+// 主進程：接收資料
+ipcMain.on('log', (event, message) => {
+  console.log('收到渲染進程訊息：', message);
+});
+```
+
+```javascript
+// 原生對話框
+const { dialog } = require('electron');
+dialog.showOpenDialog({ properties: ['openFile'] }).then(result => {
+  console.log(result.filePaths);
+});
+```
+
+---
+
+## 注意事項
+* IPC 通訊應使用 `invoke/handle` 處理回傳值，避免 race condition。
+* 為安全性，**強烈建議啟用 contextIsolation 與禁用 nodeIntegration**。

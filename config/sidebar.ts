@@ -130,6 +130,28 @@ export const sidebarItems: SidebarItem[] = [
             ]
           },
           {
+            title: 'Electron',
+            href: '/notes/frontend/electron/index',
+            children: [
+              {
+                title: 'Main 與 Renderer Process',
+                href: '/notes/frontend/electron/main_renderer'
+              },
+              {
+                title: 'IPC 通訊',
+                href: '/notes/frontend/electron/ipc'
+              },
+              {
+                title: '原生 API（Native APIs）',
+                href: '/notes/frontend/electron/native_apis'
+              },
+              {
+                title: '應用打包與發佈',
+                href: '/notes/frontend/electron/packaging_publishing'
+              }
+            ]
+          },
+          {
             title: 'CSS',
             href: '/notes/frontend/css/index',
             children: [
